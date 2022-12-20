@@ -13,7 +13,8 @@ class App {
     console.log(this.state);
     window.addEventListener("load", () => {
       const location = window.location;
-      this.state = locationResolver(this.state, location);
+      console.log("location", location)
+      this.state = locationResolver(this.state, location.hash);
     });
 
     const refs = document.querySelectorAll(".ref");

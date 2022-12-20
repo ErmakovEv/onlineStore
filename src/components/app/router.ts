@@ -8,7 +8,7 @@ const locationResolver = (
   location: string | Window["location"]
 ) => {
   if (app) {
-    if (typeof location !== "string") {
+    if (location === "" ) {
       location = "#/";
     }
     switch (location) {
@@ -16,6 +16,7 @@ const locationResolver = (
         state = productsLoader(state, app, location);
         break;
       case "#/cart/":
+        console.log('cart!!!')
         app.innerHTML = `
                   <h1>${location}</h1>
                   <p>Страница логина</p>
