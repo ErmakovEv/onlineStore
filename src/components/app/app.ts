@@ -5,7 +5,9 @@ export interface ISearch {
 }
 
 class App {
-  state: ISearch | string = window.location.search;
+  state: ISearch = {
+    category: []
+  };
 
   start() {
     console.log(this.state);

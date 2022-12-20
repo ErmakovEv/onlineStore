@@ -4,7 +4,7 @@ import { ISearch } from "./app";
 const app = document.querySelector<HTMLDivElement>("#app");
 
 const locationResolver = (
-  state: ISearch | string,
+  state: ISearch,
   location: string | Window["location"]
 ) => {
   if (app) {

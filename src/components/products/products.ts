@@ -2,7 +2,7 @@ import { ISearch } from "../app/app";
 import renderProductsPage from "./renderProducts";
 
 export default function productsLoader(
-  state: ISearch | string,
+  state: ISearch,
   app: HTMLDivElement,
   location: Window["location"] | string
 ) {

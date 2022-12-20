@@ -21,8 +21,8 @@
         "es2021": true
     },
     "extends": [
-        "plugin:prettier/recommended",
         "prettier",
+        // "plugin:prettier/recommended",
         // Базовый набор правил eslint
         "eslint:recommended",
         // Отключаем правила из базового набора
