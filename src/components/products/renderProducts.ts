@@ -2,6 +2,33 @@
 import products from "../db/shop.json";
 import { ISearch } from "../app/app";
 
+function makeQueryParamString(filtersState) {
+  const path = window.location.pathname;
+  const hash = window.location.hash;
+  let tmpQuery = '';
+  
+  for(let filter in filtersState) {
+      if(filtersState[filter].length) {
+          let valueSearchParams = '';
+          filtersState[filter].forEach((item, index) => {
+              if(index === filtersState[filter].length - 1) {
+                  valueSearchParams += `${item}`
+              }
+              else {
+                  valueSearchParams += `${item}↕`
+              }
+          });
+          const searchParams = new URLSearchParams(window.location.search);
+          searchParams.set(filter, valueSearchParams);
+          tmpQuery += searchParams.toString();
+      }
+  }
+  if(tmpQuery) {
+    return path + '?' + tmpQuery + hash;
+  }
+  return path + hash;
+}
+
 
 //отрисовка фильтров
 const createHTMLfilter = (str: string, state) => {
@@ -13,6 +40,7 @@ const createHTMLfilter = (str: string, state) => {
   `
 }
 
+//отрисовка карточки продукта
 const createHTMLproduct = (prod) => {
   return `
     <div class="card card-${prod.title}">
@@ -23,8 +51,8 @@ const createHTMLproduct = (prod) => {
     `
 }
 
+//рендер продуктов
 function renderProducts(state) {
-    //рендер продуктов
     const prod = document.querySelector('.products');
     let productForRender;
     if (!state["category"].length) {
@@ -46,13 +74,14 @@ function renderProducts(state) {
     } 
 }
 
-//общий рендер страницы продуков
+//общий рендер страницы продуков (фильтры + продукты)
 export default function renderProductsPage(
   state: ISearch | string,
   app: HTMLDivElement
 ) {
+    //ПЕРВОНАЧАЛЬНЫЙ РЕНДЕР СТРАНИЦЫ
 
-    //выбранные фильтры
+    //ВСЕ фильтры (добавить/разбить по подмассивам)
     const filtersArray = ["smartphones", "smart-watch", "laptops", "ebook"];
     //вставка всех фильтров на страницу
     app.innerHTML = `
@@ -64,7 +93,10 @@ export default function renderProductsPage(
     </div>
     `;
     renderProducts(state);
+    let pathQueryHash = makeQueryParamString(state);
+    window.history.pushState({}, "", pathQueryHash);
 
+  // ВЗАИМОДЕЙСТВИЕ СО СТРАНИЦЕЙ
   // захват фильтров
   const filtersHTMLelemets =
   document.querySelectorAll<HTMLInputElement>(".checkbox");
@@ -87,18 +119,7 @@ export default function renderProductsPage(
     }
     console.log(state["category"])
     renderProducts(state);
+    pathQueryHash = makeQueryParamString(state);
+    window.history.pushState({}, "", pathQueryHash);
   }))
   };
-
-
-// function createFilters() {
-//   const cat: string[] = [];
-//   const filtersArray: Set<string>[] = [];
-//   products.forEach(product => {
-//     let { category } = product;
-//     cat.push(category);
-//   });
-//   const set: Set<string> = new Set(cat);
-//   filtersArray.push(set);
-//   return filtersArray;
-// };
