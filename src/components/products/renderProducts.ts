@@ -130,7 +130,7 @@ function renderFilters(app: HTMLDivElement, filtersCheckbox: IFiltersCheckbox, s
 const createHTMLproduct = (prod: IProduct) => {
   return `
       <div class="card card-${prod.title}">
-          <img src="${prod.thumbnail}" alt="telephone">
+          <img class="thumbnail" src="${prod.thumbnail}" alt="telephone">
           <h2>${prod.title}</h2>
           <p>${prod.title}</p>
       </div>

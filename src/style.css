@@ -1,0 +1,22 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  background-color: aqua;
+}
+
+.container {
+  display: flex;
+}
+
+.containerOfFilters{
+  flex-shrink: 0;
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  border: 2px solid black;
+}
