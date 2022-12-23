@@ -6,10 +6,13 @@ export interface ISearch {
 }
 
 class App {
+  
+
   state: ISearch = {
     category: [],
     brand: []
   };
+
 
   start() {
     window.addEventListener("load", () => {

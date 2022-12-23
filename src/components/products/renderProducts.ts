@@ -1,5 +1,6 @@
 import products from "../db/shop.json";
 import { ISearch } from "../app/app";
+import renderSliders from "./slider/doubleSlider";
 
 //общий рендер страницы продуков (фильтры + продукты)
 export default function renderProductsPage(
@@ -13,6 +14,7 @@ export default function renderProductsPage(
   //ВСЕ фильтры TODO реализация фильтров dual-slider
   const checkboxFilters = createCheckboxFilter();
   renderFilters(app, checkboxFilters, state);
+  renderSliders(state);
   renderProducts(state);
 
   // ВЗАИМОДЕЙСТВИЕ СО СТРАНИЦЕЙ
@@ -35,7 +37,10 @@ const createHTMLfilter = (str: string, filterInstate: string[]) => {
 function renderFilters(app: HTMLDivElement, filtersCheckbox: IFiltersCheckbox, state: ISearch) {
   app.innerHTML = `
     <div class="container">
-      <div class="containerOfFilters"></div>
+      <div class="allFilters">
+        <div class="containerOfFilters"></div>
+        <div class="containerOfSliders"></div>
+      </div>
       <div class="products"></div>
     </div>
     `;
