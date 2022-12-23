@@ -16,14 +16,10 @@ header {
 
 }
 
-/* .containerOfFilters{
-
-} */
-
 .products {
   display: flex;
   flex-wrap: wrap;
-  flex-basis: 90%;
+  flex-basis: 60%;
 }
 
 .card {
@@ -33,7 +29,7 @@ header {
 .range_container {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 90%;
   margin: 35% auto;
 }
 

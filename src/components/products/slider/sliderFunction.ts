@@ -46,8 +46,8 @@ export function controlToSlider(fromSlider: HTMLInputElement, toSlider: HTMLInpu
 }
 
 export function getParsed(currentFrom: HTMLInputElement, currentTo: HTMLInputElement) {
-  const from = parseInt(currentFrom.value, 10);
-  const to = parseInt(currentTo.value, 10);
+  const from = parseInt(currentFrom.value, 15);
+  const to = parseInt(currentTo.value, 20);
   return [from, to];
 }
 

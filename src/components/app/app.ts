@@ -1,29 +1,47 @@
 import locationResolver from "./router";
 
+export interface IRange {
+  minPrice: number;
+  maxPrice: number;
+}
+
 export interface ISearch {
   category: string[];
   brand: string[];
 }
 
-class App {
-  
+export interface IFilters {
+  state: ISearch,
+  range: IRange
+} 
 
-  state: ISearch = {
-    category: [],
-    brand: []
-  };
+class App {
+
+  filters: IFilters = {
+    state: {
+      category: [],
+      brand: []
+    },
+
+    range: {
+      minPrice: 0,
+      maxPrice: 0
+    }
+  }
+
+
 
 
   start() {
     window.addEventListener("load", () => {
       const location = window.location;
-      this.state = locationResolver(this.state, location.hash);
+      this.filters = locationResolver(this.filters, location.hash);
     });
     const refs = document.querySelectorAll(".ref");
     if (refs) {
       refs.forEach((ref) => {
         ref.addEventListener("click", () => {
-          this.state = locationResolver(this.state, ref["dataset"].href);
+          this.filters = locationResolver(this.filters, ref["dataset"].href);
         });
       });
     }

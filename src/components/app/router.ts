@@ -1,10 +1,10 @@
 import productsLoader from "../products/products";
-import { ISearch } from "./app";
+import { IFilters } from "./app";
 
 const app = document.querySelector<HTMLDivElement>("#app");
 
 const locationResolver = (
-  state: ISearch,
+  filters: IFilters,
   location: string | Window["location"]
 ) => {
   if (app) {
@@ -13,7 +13,7 @@ const locationResolver = (
     }
     switch (location) {
       case "#/":
-        state = productsLoader(state, app, location);
+        filters = productsLoader(filters, app, location);
         break;
       case "#/cart/":
         console.log('cart!!!')
@@ -29,7 +29,7 @@ const locationResolver = (
         break;
     }
   }
-  return state;
+  return filters;
 };
 
 export default locationResolver;

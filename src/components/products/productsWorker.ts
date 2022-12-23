@@ -1,47 +1,69 @@
-import { ISearch } from "../app/app";
+import { IFilters, ISearch } from "../app/app";
 import {renderProducts} from "./renderProducts"
 
-export default function eventWorker(state: ISearch) {
-  for (const param in state) {
+export default function eventWorker(filters: IFilters) {
+  // let state = filters.state;
+  // let range = filters.range;
+  
+  for (const param in filters.state) {
     const filtersCheckboxGroup =
       document.querySelector<HTMLDivElement>(`.${param}`);
     if (filtersCheckboxGroup) {
       filtersCheckboxGroup.addEventListener('click', e => {
-        const checkbox = e.target as HTMLDivElement;
+        const checkbox = e.target as HTMLDivElement; //???
         if (checkbox.tagName === 'INPUT') {
-          const index = state[param as keyof ISearch].indexOf(checkbox.id);
-          if (!state[param as keyof ISearch].length || index === -1) {
-            state[param as keyof ISearch].push(checkbox.id);
+          const index: number = filters.state[param as keyof ISearch].indexOf(checkbox.id);
+          if (!filters.state[param as keyof ISearch].length || index === -1) {
+            filters.state[param as keyof ISearch].push(checkbox.id);
           } else {
             const copy: string[] = [];
-            for (let i = 0; i < state[param as keyof ISearch].length; i++) {
-              if (i !== index) copy.push(state[param as keyof ISearch][i]);
+            for (let i = 0; i < filters.state[param as keyof ISearch].length; i++) {
+              if (i !== index) copy.push(filters.state[param as keyof ISearch][i]);
 
             }
-            state[param as keyof ISearch] = copy;
+            filters.state[param as keyof ISearch] = copy;
           }
-          console.log("eventWorker", state)
-          const pathQueryHash = makeQueryParamString(state);
+          console.log("eventWorker", filters)
+          const pathQueryHash = makeQueryParamString(filters);
           window.history.pushState({}, "", pathQueryHash);
-          renderProducts(state);
+          renderProducts(filters);
         }
       })
     }
+    const sliderPrice = document.querySelector<HTMLDivElement>(".range_container");
+    if(sliderPrice) {
+      sliderPrice.addEventListener('input', (e) => {
+        if((e.target as HTMLInputElement).tagName === 'INPUT') {
+          if((e.target as HTMLInputElement).id === 'fromSlider' || (e.target as HTMLInputElement).id === 'fromInput') {
+            filters.range.minPrice = +(e.target as HTMLInputElement).value;
+          }
+          else {
+            filters.range.maxPrice = +(e.target as HTMLInputElement).value;
+          }
+        }
+        const pathQueryHash = makeQueryParamString(filters);
+        window.history.pushState({}, "", pathQueryHash);
+        renderProducts(filters);
+      })
+    }
+
+
+
   }
-  return state;
+  return filters;
 }
 
 
-function makeQueryParamString(state: ISearch): string {
+function makeQueryParamString(filters: IFilters): string {
   const path = window.location.pathname;
   const hash = window.location.hash;
   let tmpQuery = '';
   const searchParams = new URLSearchParams();
-  for (const filter in state) {
-    if (state[filter as keyof ISearch].length) {
+  for (const filter in filters.state) {
+    if (filters.state[filter as keyof ISearch].length) {
       let valueSearchParams = '';
-      state[filter as keyof ISearch].forEach((item, index) => {
-        if (index === state[filter as keyof ISearch].length - 1) {
+      filters.state[filter as keyof ISearch].forEach((item, index) => {
+        if (index === filters.state[filter as keyof ISearch].length - 1) {
           valueSearchParams += `${item}`
         }
         else {
@@ -53,6 +75,10 @@ function makeQueryParamString(state: ISearch): string {
 
     }
   }
+
+  const priceQueryParams = `${filters.range.minPrice}↕${filters.range.maxPrice}`;
+  searchParams.set("price", priceQueryParams);
+
   tmpQuery = searchParams.toString();
   if (tmpQuery) {
     return path + '?' + tmpQuery + hash;

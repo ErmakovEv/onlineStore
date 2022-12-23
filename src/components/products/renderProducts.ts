@@ -1,25 +1,28 @@
 import products from "../db/shop.json";
-import { ISearch } from "../app/app";
+import { IFilters, ISearch, IRange } from "../app/app";
 import renderSliders from "./slider/doubleSlider";
 
 //общий рендер страницы продуков (фильтры + продукты)
 export default function renderProductsPage(
-  state: ISearch,
+  filters: IFilters,
   app: HTMLDivElement
 ) {
 
+
+
   //ПЕРВОНАЧАЛЬНЫЙ РЕНДЕР СТРАНИЦЫ
   //считываем квери-параметры из URL и обновляем state
-  state = readQueryAndUpdateState(state);
+  filters = readQueryAndUpdateFilters(filters);
+
   //ВСЕ фильтры TODO реализация фильтров dual-slider
   const checkboxFilters = createCheckboxFilter();
-  renderFilters(app, checkboxFilters, state);
-  renderSliders(state);
-  renderProducts(state);
+  renderFilters(app, checkboxFilters, filters.state);
+  renderSliders(filters.range);
+  renderProducts(filters);
 
   // ВЗАИМОДЕЙСТВИЕ СО СТРАНИЦЕЙ
   // eventWorker(state)
-  return state;
+  return filters;
 }
 
 
@@ -69,23 +72,27 @@ const createHTMLproduct = (prod: IProduct) => {
 }
 
 //рендер продуктов
-export function renderProducts(state: ISearch) {
+export function renderProducts(filters: IFilters) {
 
   let cntFilter = 0;
-  for(const f in state) {
-    if (state[f as keyof ISearch].length > 0) cntFilter++;  
+  for(const f in filters.state) {
+    if (filters.state[f as keyof ISearch].length > 0) cntFilter++;  
   }
   const prod = document.querySelector('.products');
-  const productForRender: IProduct[] = products.filter( product => {
+  let productForRender: IProduct[] = products.filter( product => {
     let i = 0;
-    for(const f in state) {
-      if (state[f as keyof ISearch].indexOf(product[f]) >= 0) i++;  
+    for(const f in filters.state) {
+      if (filters.state[f as keyof ISearch].indexOf(product[f]) >= 0) i++;  
     }
 
     if(i === cntFilter) return true
     return false
   })
 
+  productForRender = productForRender.filter(product => {
+    if(product["price"] < filters.range.minPrice || product["price"] > filters.range.maxPrice) return false;
+    return true;
+  })
 
   if (prod) {
     prod.innerHTML = `
@@ -95,20 +102,40 @@ export function renderProducts(state: ISearch) {
 }
 
 //считываем квери-параметры и обновляем state
-function readQueryAndUpdateState(state: ISearch) {
+function readQueryAndUpdateFilters(filters: IFilters) {
   const params = new URLSearchParams(window.location.search)
 
   if (params.keys()) {
-    state = { "category": [], "brand": [] }
+    filters.state = { "category": [], "brand": [] }
+    filters.range = { "minPrice": 0, "maxPrice": 0 }
+
     for (const [keys, value] of params.entries()) {
 
       if (typeof value === 'string' && typeof keys === 'string') {
-        state[keys] = value.split('↕');
+        if(keys === "category" || keys === "brand") {
+          filters.state[keys] = value.split('↕');
+        }
+        else {
+          filters.range["minPrice"] = +value.split('↕')[0];
+          filters.range["maxPrice"] = +value.split('↕')[1];
+        }
       }
+    }
+    if(filters.range["minPrice"] === 0 && filters.range["maxPrice"] === 0) {
+      let max = 0;
+      products.forEach(product => {
+        if (product["price"] > max) max = product["price"];
+      })
+      let min = max;
+      products.forEach(product => {
+        if (product["price"] < min) min = product["price"];
+      })
+      filters.range["minPrice"] = min;
+      filters.range["maxPrice"] = max;
     }
   }
 
-  return state;
+  return filters;
 }
 
 function genUniqArr(arr: IProduct[], filter: "category" | "brand") {
