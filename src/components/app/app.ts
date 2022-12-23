@@ -20,7 +20,6 @@ class App {
     if (refs) {
       refs.forEach((ref) => {
         ref.addEventListener("click", () => {
-          console.log('ref["dataset"].href', ref["dataset"])
           this.state = locationResolver(this.state, ref["dataset"].href);
         });
       });
