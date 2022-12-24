@@ -2,10 +2,7 @@ import { IFilters, ISearch } from "../app/app";
 import {renderProducts} from "./renderProducts"
 import products from "../db/shop.json"
 
-export default function eventWorker(filters: IFilters) {
-  // let state = filters.state;
-  // let range = filters.range;
-  
+export default function eventWorker(filters: IFilters) {  
   for (const param in filters.state) {
     const filtersCheckboxGroup =
       document.querySelector<HTMLDivElement>(`.${param}`);
