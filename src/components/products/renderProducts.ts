@@ -65,7 +65,7 @@ const createHTMLproduct = (prod: IProduct) => {
           <img class="thumbnail" src="${prod.thumbnail}" alt="telephone">
           <h2>${prod.description}</h2>
           <p>${prod.price}</p>
-          <button class="more-info">info</button>
+          <a href="#/productCard/" class="ref" data-href="#/productCard/">Инфо</a>
           <button class="addCart">add</button>
       </div>
       `

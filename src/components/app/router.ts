@@ -22,6 +22,12 @@ const locationResolver = (
                   <p>Страница логина</p>
               `;
         break;
+      case "#/productCard/":
+        app.innerHTML = `
+                  <h1>${location}</h1>
+                  <p>Страница карточки продукта</p>
+              `;
+        break;
       default:
         app.innerHTML = `
             <p>Error</p>

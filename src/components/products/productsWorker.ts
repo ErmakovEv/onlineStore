@@ -1,6 +1,7 @@
 import { IFilters, ISearch } from "../app/app";
 import {renderProducts} from "./renderProducts"
 import products from "../db/shop.json"
+import locationResolver from "../app/router"
 
 export default function eventWorker(filters: IFilters) {  
   for (const param in filters.state) {
@@ -44,10 +45,19 @@ export default function eventWorker(filters: IFilters) {
         renderProducts(filters);
       })
     }
-
-
-
   }
+
+  const blockProduct = document.querySelector<HTMLDivElement>(".products");
+  if(blockProduct) {
+    blockProduct.addEventListener("click", (e) => {
+      if ((e.target as HTMLLinkElement).tagName === "A") {
+        console.log("do", filters)
+        filters = locationResolver(filters, e.target!["dataset"].href);
+        console.log("posle", filters)
+      }
+    })
+  }
+
   return filters;
 }
 
