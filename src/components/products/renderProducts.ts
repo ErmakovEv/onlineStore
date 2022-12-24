@@ -1,5 +1,5 @@
 import products from "../db/shop.json";
-import { IFilters, ISearch, IRange } from "../app/app";
+import { IFilters, ISearch } from "../app/app";
 import renderSliders from "./slider/doubleSlider";
 
 //общий рендер страницы продуков (фильтры + продукты)
@@ -7,8 +7,6 @@ export default function renderProductsPage(
   filters: IFilters,
   app: HTMLDivElement
 ) {
-
-
 
   //ПЕРВОНАЧАЛЬНЫЙ РЕНДЕР СТРАНИЦЫ
   //считываем квери-параметры из URL и обновляем state
@@ -65,8 +63,10 @@ const createHTMLproduct = (prod: IProduct) => {
   return `
       <div class="card card-${prod.title}">
           <img class="thumbnail" src="${prod.thumbnail}" alt="telephone">
-          <h2>${prod.title}</h2>
-          <p>${prod.title}</p>
+          <h2>${prod.description}</h2>
+          <p>${prod.price}</p>
+          <button class="more-info">info</button>
+          <button class="addCart">add</button>
       </div>
       `
 }

@@ -1,6 +1,6 @@
 import { IRange } from "../../app/app";
 import products from "../../db/shop.json"
-import {controlFromInput, controlToInput, controlFromSlider, controlToSlider, getParsed, fillSlider, setToggleAccessible} from "./sliderFunction"
+// import {controlFromInput, controlToInput, controlFromSlider, controlToSlider, getParsed, fillSlider, setToggleAccessible} from "./sliderFunction"
 
 
 export default function renderSliders(range: IRange) {
@@ -13,16 +13,19 @@ export default function renderSliders(range: IRange) {
     if (product["price"] < min) min = product["price"];
   })
 
-  const slidersContainerHTML = document.querySelector('.containerOfSliders')!;
-  slidersContainerHTML.classList.add("range_container");
-  slidersContainerHTML.innerHTML = `
-    <div class="range_container">
-    <div class="sliders_control">
-        <input id="fromSlider" type="range" value="${range.minPrice}"  min="${min}" max="${max}"/>
-        <input id="toSlider" type="range" value="${range.maxPrice}"  min="${min}" max="${max}"/>
+  const slidersContainerHTML = document.querySelector('.containerOfSliders');
+  if(slidersContainerHTML) {
+    slidersContainerHTML.classList.add("range_container");
+    slidersContainerHTML.innerHTML = `
+      <div class="range_container">
+      <div class="sliders_control">
+          <input id="fromSlider" type="range" value="${range.minPrice}"  min="${min}" max="${max}"/>
+          <input id="toSlider" type="range" value="${range.maxPrice}"  min="${min}" max="${max}"/>
+      </div>
     </div>
-  </div>
-  `
+    `
+  }
+
   const fromSlider = document.querySelector<HTMLInputElement>('#fromSlider');
   const toSlider = document.querySelector<HTMLInputElement>('#toSlider');
   fromSlider?.addEventListener('change', e => {

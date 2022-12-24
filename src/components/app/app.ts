@@ -30,8 +30,6 @@ class App {
   }
 
 
-
-
   start() {
     window.addEventListener("load", () => {
       const location = window.location;

@@ -1,5 +1,6 @@
 import { IFilters, ISearch } from "../app/app";
 import {renderProducts} from "./renderProducts"
+import products from "../db/shop.json"
 
 export default function eventWorker(filters: IFilters) {
   // let state = filters.state;
@@ -76,8 +77,18 @@ function makeQueryParamString(filters: IFilters): string {
     }
   }
 
-  const priceQueryParams = `${filters.range.minPrice}↕${filters.range.maxPrice}`;
-  searchParams.set("price", priceQueryParams);
+  let max = 0;
+  products.forEach(product => {
+    if (product["price"] > max) max = product["price"];
+  })
+  let min = max;
+  products.forEach(product => {
+    if (product["price"] < min) min = product["price"];
+  })
+  if ((filters.range.minPrice !== min) || (filters.range.maxPrice !== max)) {
+    const priceQueryParams = `${filters.range.minPrice}↕${filters.range.maxPrice}`;
+    searchParams.set("price", priceQueryParams);
+  }
 
   tmpQuery = searchParams.toString();
   if (tmpQuery) {
