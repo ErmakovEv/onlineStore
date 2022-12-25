@@ -14,7 +14,7 @@ const locationResolver = (
     }
     switch (location) {
       case "#/":
-        filters = productsLoader(filters, app, location);
+        filters = productsLoader(filters, app);
         break;
       case "#/cart/":
         app.innerHTML = `

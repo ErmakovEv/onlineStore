@@ -58,7 +58,7 @@ export default function eventWorker(filters: IFilters) {
         console.dir(targetId)
         const pathQueryHash = makeQueryParamString(filters);
         window.history.pushState({}, "", pathQueryHash);
-        filters = locationResolver(filters, e.target.dataset.href);
+        if (e.target)filters = locationResolver(filters, String((e.target as HTMLLinkElement).dataset.href));
       }
     })
   }
