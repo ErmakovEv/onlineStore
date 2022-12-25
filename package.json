@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack",
     "lint": "eslint --ext .ts src --fix",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "style": "sass --watch src/sass/style.scss src/sass/style.css"
   },
   "repository": {
     "type": "git",
