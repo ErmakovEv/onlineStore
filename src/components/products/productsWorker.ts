@@ -51,9 +51,14 @@ export default function eventWorker(filters: IFilters) {
   if(blockProduct) {
     blockProduct.addEventListener("click", (e) => {
       if ((e.target as HTMLLinkElement).tagName === "A") {
-        console.log("do", filters)
+        const nameCurrentProduct = (e.target as HTMLLinkElement)!.parentElement!.children[0].textContent;
+        const currentProduct = products.find(item => item["title"] === nameCurrentProduct)
+        const targetId = currentProduct!["id"];
+        filters.info = targetId
+        console.dir(targetId)
+        const pathQueryHash = makeQueryParamString(filters);
+        window.history.pushState({}, "", pathQueryHash);
         filters = locationResolver(filters, e.target!["dataset"].href);
-        console.log("posle", filters)
       }
     })
   }
@@ -95,6 +100,11 @@ function makeQueryParamString(filters: IFilters): string {
   if ((filters.range.minPrice !== min) || (filters.range.maxPrice !== max)) {
     const priceQueryParams = `${filters.range.minPrice}↕${filters.range.maxPrice}`;
     searchParams.set("price", priceQueryParams);
+  }
+
+  if (filters.info) {
+    const infoParam = `${filters.info}`;
+    searchParams.set("info", infoParam);
   }
 
   tmpQuery = searchParams.toString();

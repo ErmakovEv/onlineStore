@@ -62,6 +62,7 @@ function renderFilters(app: HTMLDivElement, filtersCheckbox: IFiltersCheckbox, s
 const createHTMLproduct = (prod: IProduct) => {
   return `
       <div class="card card-${prod.title}">
+          <h2>${prod.title}</h2>
           <img class="thumbnail" src="${prod.thumbnail}" alt="telephone">
           <h2>${prod.description}</h2>
           <p>${prod.price}</p>
@@ -106,8 +107,9 @@ function readQueryAndUpdateFilters(filters: IFilters) {
   const params = new URLSearchParams(window.location.search)
 
   if (params.keys()) {
-    filters.state = { "category": [], "brand": [] }
-    filters.range = { "minPrice": 0, "maxPrice": 0 }
+    filters.state = { "category": [], "brand": [] };
+    filters.range = { "minPrice": 0, "maxPrice": 0 };
+    filters.info = 0;
 
     for (const [keys, value] of params.entries()) {
 
@@ -115,9 +117,12 @@ function readQueryAndUpdateFilters(filters: IFilters) {
         if(keys === "category" || keys === "brand") {
           filters.state[keys] = value.split('↕');
         }
-        else {
+        else if (keys === "price") {
           filters.range["minPrice"] = +value.split('↕')[0];
           filters.range["maxPrice"] = +value.split('↕')[1];
+        }
+        else {
+          filters.info = +value;
         }
       }
     }

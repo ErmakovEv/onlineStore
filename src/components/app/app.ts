@@ -12,7 +12,9 @@ export interface ISearch {
 
 export interface IFilters {
   state: ISearch,
-  range: IRange
+  range: IRange,
+  info: number,
+  cart: number []
 } 
 
 class App {
@@ -26,7 +28,12 @@ class App {
     range: {
       minPrice: 0,
       maxPrice: 0
-    }
+    },
+
+    info: 0,
+
+    cart: []
+
   }
 
 

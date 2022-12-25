@@ -1,4 +1,5 @@
 import productsLoader from "../products/products";
+import infoLoader from "../info/info";
 import { IFilters } from "./app";
 
 const app = document.querySelector<HTMLDivElement>("#app");
@@ -16,17 +17,18 @@ const locationResolver = (
         filters = productsLoader(filters, app, location);
         break;
       case "#/cart/":
-        console.log('cart!!!')
         app.innerHTML = `
                   <h1>${location}</h1>
                   <p>Страница логина</p>
               `;
         break;
       case "#/productCard/":
-        app.innerHTML = `
-                  <h1>${location}</h1>
-                  <p>Страница карточки продукта</p>
-              `;
+        //TODO проверка, если нет в массиве продуктов - 404
+        // app.innerHTML = `
+        //           <h1>${location}</h1>
+        //           <p>Страница карточки продукта ${filters.info}</p>
+        //       `;
+        infoLoader(filters, app);
         break;
       default:
         app.innerHTML = `
