@@ -48,6 +48,8 @@
         "prettier"
     ],
     "rules": {
+        "@typescript-eslint/no-non-null-assertion": "off"
+
     },
     "ignorePatterns": ["dist",  "webpack.config.js", "node_modules"]
 }

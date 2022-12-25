@@ -83,7 +83,8 @@ export function renderProducts(filters: IFilters) {
   let productForRender: IProduct[] = products.filter( product => {
     let i = 0;
     for(const f in filters.state) {
-      if (filters.state[f as keyof ISearch].indexOf(product[f]) >= 0) i++;  
+      const value = product[f as keyof ISearch]
+      if (filters.state[f as keyof ISearch].indexOf(value) >= 0) i++;  
     }
 
     if(i === cntFilter) return true

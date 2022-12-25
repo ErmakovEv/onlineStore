@@ -6,4 +6,4 @@ app.start();
 
 
 //  Добавляю консоль
-console.log('Hello from Olya')
+console.log('Hello from Jenya!!!')

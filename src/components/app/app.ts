@@ -42,11 +42,11 @@ class App {
       const location = window.location;
       this.filters = locationResolver(this.filters, location.hash);
     });
-    const refs = document.querySelectorAll(".ref");
+    const refs = document.querySelectorAll<HTMLAnchorElement>(".ref");
     if (refs) {
       refs.forEach((ref) => {
         ref.addEventListener("click", () => {
-          this.filters = locationResolver(this.filters, ref["dataset"].href);
+          this.filters = locationResolver(this.filters, String(ref.dataset.href));
         });
       });
     }
