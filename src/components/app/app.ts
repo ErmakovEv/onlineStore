@@ -15,7 +15,8 @@ export interface IFilters {
   range: IRange,
   info: number,
   cart: number [],
-  search: string
+  search: string,
+  sort: number
 } 
 
 class App {
@@ -35,7 +36,9 @@ class App {
 
     cart: [],
 
-    search: ""
+    search: "",
+
+    sort: 0
 
   }
 

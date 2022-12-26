@@ -8,6 +8,7 @@ export default function eventWorker(filters: IFilters) {
   listenSlidersFilters(filters);
   listenButtonsInProductCard(filters);
   listenInputSearch(filters);
+  listenChangeSortSelect(filters);
   return filters;
 }
 
@@ -94,6 +95,16 @@ function listenInputSearch(filters: IFilters) {
   }
 }
 
+function listenChangeSortSelect(filters: IFilters) {
+  const select = document.querySelector<HTMLSelectElement>(".sort-select");
+  if(select) {
+    select.addEventListener("change", (e) => {
+      filters.sort = (e.target as HTMLSelectElement).options.selectedIndex;
+      changeQueryAndRenderProduct(filters);
+    })
+  }
+}
+
 
 function makeQueryParamString(filters: IFilters): string {
   const path = window.location.pathname;
@@ -139,6 +150,11 @@ function makeQueryParamString(filters: IFilters): string {
     const serParams = filters.search;
     searchParams.set("search", serParams);
   }
+
+  if (filters.sort >= 0) {
+    const sortParams = filters.sort;
+    searchParams.set("search", String(sortParams));
+  } 
 
   tmpQuery = searchParams.toString();
   if (tmpQuery) {

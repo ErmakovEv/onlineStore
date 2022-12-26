@@ -44,6 +44,12 @@ function renderFilters(app: HTMLDivElement, filtersCheckbox: IFiltersCheckbox, f
         <div class="containerOfSearch">
           <input type="text" class="search" value=${filters.search}>
         </div>
+        <label for="sort-select">Sort by...</label>
+        <select class="sort-select" name="sort-variants">
+            <option value="price-high-low" ${filters.sort === 0 ? "selected" : ""}>Price: High - Low</option>
+            <option value="price-low-high" ${filters.sort === 1 ? "selected" : ""}>Price: Low - High</option>
+            <option value="alphabetical" ${filters.sort === 2 ? "selected" : ""}>Alphabetical</option>
+        </select>
       </div>
       <div class="products"></div>
     </div>
@@ -79,33 +85,47 @@ const createHTMLproduct = (prod: IProduct) => {
 export function renderProducts(filters: IFilters) {
 
   let cntFilter = 0;
-  for(const f in filters.state) {
-    if (filters.state[f as keyof ISearch].length > 0) cntFilter++;  
+  for (const f in filters.state) {
+    if (filters.state[f as keyof ISearch].length > 0) cntFilter++;
   }
   const prod = document.querySelector('.products');
-  let productForRender: IProduct[] = products.filter( product => {
+  let productForRender: IProduct[] = products.filter(product => {
     let i = 0;
-    for(const f in filters.state) {
+    for (const f in filters.state) {
       const value = product[f as keyof ISearch]
-      if (filters.state[f as keyof ISearch].indexOf(value) >= 0) i++;  
+      if (filters.state[f as keyof ISearch].indexOf(value) >= 0) i++;
     }
 
-    if(i === cntFilter) return true
+    if (i === cntFilter) return true
     return false
   })
 
   productForRender = productForRender.filter(product => {
-    if(product["price"] < filters.range.minPrice || product["price"] > filters.range.maxPrice) return false;
+    if (product["price"] < filters.range.minPrice || product["price"] > filters.range.maxPrice) return false;
     return true;
   })
 
   productForRender = productForRender.filter(product => {
-    if(product["title"].indexOf(filters.search) >= 0 ||
-       product["description"].indexOf(filters.search) >= 0 ||
-       product["brand"].indexOf(filters.search) >= 0 ||
-       product["category"].indexOf(filters.search) >= 0 ) return true;
-       return false;
+    if (product["title"].indexOf(filters.search) >= 0 ||
+      product["description"].indexOf(filters.search) >= 0 ||
+      product["brand"].indexOf(filters.search) >= 0 ||
+      product["category"].indexOf(filters.search) >= 0) return true;
+    return false;
   })
+
+  console.log(filters)
+
+  if (filters.sort === 1) {
+    productForRender.sort((a: IProduct, b: IProduct) => a["price"] - b["price"]);
+  } else if (filters.sort === 0) {
+    productForRender.sort((a: IProduct, b: IProduct) => b["price"] - a["price"]);
+  } else {
+    productForRender.sort((a: IProduct, b: IProduct) => {
+      if (a["title"] > b["title"]) return 1;
+      else if (a["title"] < b["title"]) return -1;
+      else return 0;
+    })
+  }
 
   if (prod) {
     prod.innerHTML = `
@@ -126,7 +146,7 @@ function readQueryAndUpdateFilters(filters: IFilters) {
     for (const [keys, value] of params.entries()) {
 
       if (typeof value === 'string' && typeof keys === 'string') {
-        if(keys === "category" || keys === "brand") {
+        if (keys === "category" || keys === "brand") {
           filters.state[keys] = value.split('↕');
         }
         else if (keys === "price") {
@@ -136,12 +156,18 @@ function readQueryAndUpdateFilters(filters: IFilters) {
         else if (keys === "info") {
           filters.info = +value;
         }
-        else {
+        else if (keys === "search") {
           filters.search = value;
+        }
+        else if (keys === "sort") {
+          filters.sort = +value;
+        }
+        else {
+          console.log(404)
         }
       }
     }
-    if(filters.range["minPrice"] === 0 && filters.range["maxPrice"] === 0) {
+    if (filters.range["minPrice"] === 0 && filters.range["maxPrice"] === 0) {
       let max = 0;
       products.forEach(product => {
         if (product["price"] > max) max = product["price"];
