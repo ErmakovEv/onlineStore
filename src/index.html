@@ -7,12 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <header>
-        <p class="nav-block"><a href="#/" class="ref" data-href="#/">Главная</a></з>
-        <p class="nav-block"><a href="#/cart/" class="ref" data-href="#/cart/">Корзина</a></p>
-    </header>
+    <header class="header">
+        <div class="container">
+         <div class="logo">
+             <a class="logo-link" href="#/" class="ref" data-href="#/">OnlineStore</a>
+         </div>
+         <div class="cart-count">
+             <h2 class="cart-count-tittle">Cart total:</h2><span class="cart-total-sum"></span>
+         </div>
+         <div class="logo-cart">
+             <div class="cart-amount">
+     
+             </div>
+             <a href="#/cart/" class="ref" data-href="#/cart/">Cart</a>
+         </div>
+        </div>
+     </header>
     <main id="app">
-        <h1>Главная страница</h1>
+        
     </main>
     <!-- <p><a href="#/users/" data-href="#/users/" onclick="locationResolver(this.dataset.href)">Пользователи</a></p> -->
 </body>
