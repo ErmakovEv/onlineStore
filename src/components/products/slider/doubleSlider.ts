@@ -20,6 +20,8 @@ export default function renderSliders(range: IRange) {
       <div class="sliders_control">
           <input class="slider" id="fromSlider" type="range" value="${range.minPrice}"  min="${min}" max="${max}"/>
           <input class="slider" id="toSlider" type="range" value="${range.maxPrice}"  min="${min}" max="${max}"/>
+          <div class="minPrice">${range.minPrice}</div>
+          <div class="maxPrice">${range.maxPrice}</div>
       </div>
     `
   }

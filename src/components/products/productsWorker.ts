@@ -6,7 +6,7 @@ import locationResolver from "../app/router"
 export default function eventWorker(filters: IFilters) {
   listenCheckboxFilters(filters);
   listenSlidersFilters(filters);
-  listenMoreInfo(filters);
+  listenButtonsInProductCard(filters);
 
   return filters;
 }
@@ -38,14 +38,18 @@ function listenCheckboxFilters(filters: IFilters) {
 
 function listenSlidersFilters(filters: IFilters) {
   const sliders = document.querySelectorAll<HTMLInputElement>(".slider");
+  const minPrice = document.querySelector<HTMLDivElement>(".minPrice");
+  const maxPrice = document.querySelector<HTMLDivElement>(".maxPrice");
   if (sliders) {
     sliders.forEach(slider => {
       slider.addEventListener('input', (e) => {
         const target = e.target as HTMLInputElement;
         if (target.id === 'fromSlider' || target.id === 'fromInput') {
           filters.range.minPrice = +target.value;
+          minPrice!.textContent = target.value;
         } else {
           filters.range.maxPrice = +target.value;
+          maxPrice!.textContent = target.value;
         }
         changeQueryAndRenderProduct(filters);
       })
@@ -53,7 +57,7 @@ function listenSlidersFilters(filters: IFilters) {
   }
 }
 
-function listenMoreInfo(filters: IFilters) {
+function listenButtonsInProductCard(filters: IFilters) {
   const blockProduct = document.querySelector<HTMLDivElement>(".products");
   if (blockProduct) {
     blockProduct.addEventListener("click", (e) => {
