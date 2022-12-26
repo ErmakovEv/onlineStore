@@ -167,7 +167,7 @@ interface IFiltersCheckbox {
   "brand": string[];
 }
 
-interface IProduct {
+export interface IProduct {
   "id": number;
   "title": string;
   "description": string;
