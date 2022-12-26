@@ -17,12 +17,10 @@ export default function renderSliders(range: IRange) {
   if(slidersContainerHTML) {
     slidersContainerHTML.classList.add("range_container");
     slidersContainerHTML.innerHTML = `
-      <div class="range_container">
       <div class="sliders_control">
-          <input id="fromSlider" type="range" value="${range.minPrice}"  min="${min}" max="${max}"/>
-          <input id="toSlider" type="range" value="${range.maxPrice}"  min="${min}" max="${max}"/>
+          <input class="slider" id="fromSlider" type="range" value="${range.minPrice}"  min="${min}" max="${max}"/>
+          <input class="slider" id="toSlider" type="range" value="${range.maxPrice}"  min="${min}" max="${max}"/>
       </div>
-    </div>
     `
   }
 

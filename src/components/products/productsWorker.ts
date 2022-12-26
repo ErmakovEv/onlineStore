@@ -1,12 +1,20 @@
 import { IFilters, ISearch } from "../app/app";
-import {renderProducts} from "./renderProducts"
+import { renderProducts } from "./renderProducts"
 import products from "../db/shop.json"
 import locationResolver from "../app/router"
 
-export default function eventWorker(filters: IFilters) {  
+export default function eventWorker(filters: IFilters) {
+  listenCheckboxFilters(filters);
+  listenSlidersFilters(filters);
+  listenMoreInfo(filters);
+
+  return filters;
+}
+
+
+function listenCheckboxFilters(filters: IFilters) {
   for (const param in filters.state) {
-    const filtersCheckboxGroup =
-      document.querySelector<HTMLDivElement>(`.${param}`);
+    const filtersCheckboxGroup = document.querySelector<HTMLDivElement>(`.${param}`);
     if (filtersCheckboxGroup) {
       filtersCheckboxGroup.addEventListener('click', e => {
         const checkbox = e.target as HTMLDivElement; //???
@@ -18,37 +26,36 @@ export default function eventWorker(filters: IFilters) {
             const copy: string[] = [];
             for (let i = 0; i < filters.state[param as keyof ISearch].length; i++) {
               if (i !== index) copy.push(filters.state[param as keyof ISearch][i]);
-
             }
             filters.state[param as keyof ISearch] = copy;
           }
-          console.log("eventWorker", filters)
-          const pathQueryHash = makeQueryParamString(filters);
-          window.history.pushState({}, "", pathQueryHash);
-          renderProducts(filters);
+          changeQueryAndRenderProduct(filters);
         }
-      })
-    }
-    const sliderPrice = document.querySelector<HTMLDivElement>(".range_container");
-    if(sliderPrice) {
-      sliderPrice.addEventListener('input', (e) => {
-        if((e.target as HTMLInputElement).tagName === 'INPUT') {
-          if((e.target as HTMLInputElement).id === 'fromSlider' || (e.target as HTMLInputElement).id === 'fromInput') {
-            filters.range.minPrice = +(e.target as HTMLInputElement).value;
-          }
-          else {
-            filters.range.maxPrice = +(e.target as HTMLInputElement).value;
-          }
-        }
-        const pathQueryHash = makeQueryParamString(filters);
-        window.history.pushState({}, "", pathQueryHash);
-        renderProducts(filters);
       })
     }
   }
+}
 
+function listenSlidersFilters(filters: IFilters) {
+  const sliders = document.querySelectorAll<HTMLInputElement>(".slider");
+  if (sliders) {
+    sliders.forEach(slider => {
+      slider.addEventListener('input', (e) => {
+        const target = e.target as HTMLInputElement;
+        if (target.id === 'fromSlider' || target.id === 'fromInput') {
+          filters.range.minPrice = +target.value;
+        } else {
+          filters.range.maxPrice = +target.value;
+        }
+        changeQueryAndRenderProduct(filters);
+      })
+    })
+  }
+}
+
+function listenMoreInfo(filters: IFilters) {
   const blockProduct = document.querySelector<HTMLDivElement>(".products");
-  if(blockProduct) {
+  if (blockProduct) {
     blockProduct.addEventListener("click", (e) => {
       if ((e.target as HTMLLinkElement).tagName === "A") {
         const nameCurrentProduct = (e.target as HTMLLinkElement)!.parentElement!.children[0].textContent;
@@ -58,12 +65,19 @@ export default function eventWorker(filters: IFilters) {
         console.dir(targetId)
         const pathQueryHash = makeQueryParamString(filters);
         window.history.pushState({}, "", pathQueryHash);
-        if (e.target)filters = locationResolver(filters, String((e.target as HTMLLinkElement).dataset.href));
+        filters = locationResolver(filters, String((e.target as HTMLLinkElement).dataset.href));
+      }
+      else if ((e.target as HTMLButtonElement).tagName === "BUTTON") {
+        const nameCurrentProduct = (e.target as HTMLLinkElement)!.parentElement!.children[0].textContent;
+        const currentProduct = products.find(item => item["title"] === nameCurrentProduct)
+        const targetId = currentProduct!["id"];
+        const set = new Set(filters.cart);
+        set.has(targetId) ? set.delete(targetId) : set.add(targetId)
+        filters.cart = Array.from(set);
+        console.log(filters);
       }
     })
   }
-
-  return filters;
 }
 
 
@@ -83,7 +97,7 @@ function makeQueryParamString(filters: IFilters): string {
           valueSearchParams += `${item}↕`
         }
       });
-      
+
       searchParams.set(filter, valueSearchParams);
 
     }
@@ -112,4 +126,12 @@ function makeQueryParamString(filters: IFilters): string {
     return path + '?' + tmpQuery + hash;
   }
   return path + hash;
+}
+
+type cb = (filters: IFilters) => void
+
+const changeQueryAndRenderProduct: cb = (filters: IFilters) => {
+  const pathQueryHash = makeQueryParamString(filters);
+  window.history.pushState({}, "", pathQueryHash);
+  renderProducts(filters);
 }
