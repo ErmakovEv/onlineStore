@@ -53,7 +53,34 @@ header {
 }
 
 
+.logo {
+  padding-left: 60px;
+  font-size:48px;
+  color:rgb(247, 247, 247);
 
+}
+
+.cart-count-tittle {
+font-family: 'Bebas Neue';
+font-size: 24px;
+color: rgb(146, 125, 125);
+
+}
+.cart-amount {
+  height: 30px;
+  width: 30px;
+  border-radius: 50px;
+  background-color: rgba(135, 7, 167, 0.734);
+  margin-right: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0, 0.76);
+}
+
+.logo-cart {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 60px;
+}
 
 
 
