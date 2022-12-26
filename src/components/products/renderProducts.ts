@@ -14,7 +14,7 @@ export default function renderProductsPage(
 
   //ВСЕ фильтры TODO реализация фильтров dual-slider
   const checkboxFilters = createCheckboxFilter();
-  renderFilters(app, checkboxFilters, filters.state);
+  renderFilters(app, checkboxFilters, filters);
   renderSliders(filters.range);
   renderProducts(filters);
 
@@ -35,12 +35,15 @@ const createHTMLfilter = (str: string, filterInstate: string[]) => {
 }
 
 //рендер фильтра
-function renderFilters(app: HTMLDivElement, filtersCheckbox: IFiltersCheckbox, state: ISearch) {
+function renderFilters(app: HTMLDivElement, filtersCheckbox: IFiltersCheckbox, filters: IFilters) {
   app.innerHTML = `
     <div class="container">
       <div class="allFilters">
         <div class="containerOfFilters"></div>
         <div class="containerOfSliders"></div>
+        <div class="containerOfSearch">
+          <input type="text" class="search" value=${filters.search}>
+        </div>
       </div>
       <div class="products"></div>
     </div>
@@ -50,7 +53,7 @@ function renderFilters(app: HTMLDivElement, filtersCheckbox: IFiltersCheckbox, s
   for (const item in filtersCheckbox) {
     const ul = document.createElement('ul');
     ul.classList.add(item);
-    const liHtml: string = filtersCheckbox[item as keyof IFiltersCheckbox].map((i: string) => createHTMLfilter(i, state[item as keyof ISearch])).join("");
+    const liHtml: string = filtersCheckbox[item as keyof IFiltersCheckbox].map((i: string) => createHTMLfilter(i, filters.state[item as keyof ISearch])).join("");
     ul.innerHTML = liHtml;
     if (filtersHTML) {
       filtersHTML.append(ul);
@@ -96,6 +99,14 @@ export function renderProducts(filters: IFilters) {
     return true;
   })
 
+  productForRender = productForRender.filter(product => {
+    if(product["title"].indexOf(filters.search) >= 0 ||
+       product["description"].indexOf(filters.search) >= 0 ||
+       product["brand"].indexOf(filters.search) >= 0 ||
+       product["category"].indexOf(filters.search) >= 0 ) return true;
+       return false;
+  })
+
   if (prod) {
     prod.innerHTML = `
       ${productForRender.map(prod => createHTMLproduct(prod)).join("")}
@@ -122,8 +133,11 @@ function readQueryAndUpdateFilters(filters: IFilters) {
           filters.range["minPrice"] = +value.split('↕')[0];
           filters.range["maxPrice"] = +value.split('↕')[1];
         }
-        else {
+        else if (keys === "info") {
           filters.info = +value;
+        }
+        else {
+          filters.search = value;
         }
       }
     }

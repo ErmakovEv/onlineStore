@@ -7,7 +7,7 @@ export default function eventWorker(filters: IFilters) {
   listenCheckboxFilters(filters);
   listenSlidersFilters(filters);
   listenButtonsInProductCard(filters);
-
+  listenInputSearch(filters);
   return filters;
 }
 
@@ -84,6 +84,16 @@ function listenButtonsInProductCard(filters: IFilters) {
   }
 }
 
+function listenInputSearch(filters: IFilters) {
+  const search = document.querySelector<HTMLInputElement>(".search");
+  if(search) {
+    search.addEventListener("input", (e) => {
+      filters.search = (e.target as HTMLInputElement).value;
+      changeQueryAndRenderProduct(filters);
+    })
+  }
+}
+
 
 function makeQueryParamString(filters: IFilters): string {
   const path = window.location.pathname;
@@ -123,6 +133,11 @@ function makeQueryParamString(filters: IFilters): string {
   if (filters.info) {
     const infoParam = `${filters.info}`;
     searchParams.set("info", infoParam);
+  }
+
+  if (filters.search) {
+    const serParams = filters.search;
+    searchParams.set("search", serParams);
   }
 
   tmpQuery = searchParams.toString();
