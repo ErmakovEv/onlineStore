@@ -1,0 +1,217 @@
+
+
+.product-page{
+    /* background: linear-gradient(45deg, #F17C58, #E94584, #24AADB, #27DBB1, #FFDC18, #FF3706); */
+    margin: 20px auto;
+    box-shadow: 0 4px 10px rgba(0,0,0, 0.76);
+    width: 1100px;
+    border-radius: 10px;
+    border: 5px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
+}
+.product-tittle {
+    width: 100%;
+    text-align: center;
+    background: #9d36b059;
+    border-bottom: 2px solid #3300ff;
+}
+  .product-tittle h1{
+    font-family: 'Popins';
+    padding: 20px;
+    font-size: 30px;
+ }
+.product-data{
+    display: flex;
+    
+    flex-direction: row;
+    margin: 20px;
+}
+ .product-photos {
+    width: 40%;
+    display: flex;
+ }
+ .products-photos-slides {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 10px;
+ }
+  .products-photos-slides img{
+    margin: 10px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0, 0.76);;
+    width: 80%;
+    border: 1px solid rgba(166, 0, 255, 0.658);
+    border-radius: 0.5rem;
+    cursor: pointer;
+ }
+
+ .main-photo {
+  box-shadow: 0 4px 10px rgba(0,0,0, 0.76);;
+    margin: 10px 15px;
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+ }
+ .main-photo img {
+  
+    height: 250px;
+    width: 250px;
+ }
+
+ .product-discription {
+    width: 36%;
+ }
+
+ .product-detail-item {
+  box-shadow: 0 4px 10px rgba(0,0,0, 0.76);;
+    margin: 1% auto;
+    border: 1px solid rgb(208, 0, 255);
+    border-radius: 0.3rem;
+    overflow: hidden;
+    text-align: center;
+ }
+ 
+
+  .product-detail-item h3{
+    text-align: center;
+    background-color:#9d36b059;
+    padding: .7%;
+ }
+
+ .product-detail-item p {
+    font-style: italic;
+    padding: .7%;
+    color: rgb(21, 24, 29);
+ }
+
+ .product-add h3 {
+    text-shadow: 0 0 10px rgb(99, 24, 184), 0 0 20px rgb(99, 24, 184), 0 0 30px rgb(99, 24, 184), 0 0 40px rgb(99, 24, 184);
+    font-size: 30px;
+    display: block;
+ }
+ .product-add {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    
+ }
+ .product-add button {
+    margin: 20px 0;
+ }
+ /* .product-add  button{
+    font-size: 40%;
+    display: block;
+    padding: 7% 0;
+    background: #9a3535;
+    color: wheat;
+    border: 2px solid orange;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    width: 100%;
+    margin: 1rem auto;
+ } */
+
+ .custom-btn {
+    width: 130px;
+    height: 40px;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+     box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+     7px 7px 20px 0px rgba(0,0,0,.1),
+     4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+  }
+  .btn-7 {
+    background: linear-gradient(0deg, rgba(255, 0, 149, 0.577) 0%, rgba(160, 2, 251, 0.916) 100%);
+    line-height: 42px;
+    padding: 0;
+    border: none;
+  }
+  .btn-7 span {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .btn-7:before,
+  .btn-7:after {
+    position: absolute;
+    content: "";
+    right: 0;
+    bottom: 0;
+    background: rgb(231, 8, 201);
+    box-shadow:
+     -7px -7px 20px 0px rgba(255,255,255,.9),
+     -4px -4px 5px 0px rgba(255,255,255,.9),
+     7px 7px 20px 0px rgba(0,0,0,.2),
+     4px 4px 5px 0px rgba(0,0,0,.3);
+    transition: all 0.3s ease;
+  }
+  .btn-7:before{
+     height: 0%;
+     width: 2px;
+  }
+  .btn-7:after {
+    width: 0%;
+    height: 2px;
+  }
+  .btn-7:hover{
+    color: rgb(12, 10, 3);
+    background: transparent;
+  }
+  .btn-7:hover:before {
+    height: 100%;
+  }
+  .btn-7:hover:after {
+    width: 100%;
+  }
+  .btn-7 span:before,
+  .btn-7 span:after {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    background: rgb(197, 7, 240);
+    box-shadow:
+     -7px -7px 20px 0px rgba(255,255,255,.9),
+     -4px -4px 5px 0px rgba(255,255,255,.9),
+     7px 7px 20px 0px rgba(0,0,0,.2),
+     4px 4px 5px 0px rgba(0,0,0,.3);
+    transition: all 0.3s ease;
+  }
+  .btn-7 span:before {
+    width: 2px;
+    height: 0%;
+  }
+  .btn-7 span:after {
+    height: 2px;
+    width: 0%;
+  }
+  .btn-7 span:hover:before {
+    height: 100%;
+  }
+  .btn-7 span:hover:after {
+    width: 100%;
+  }
+
+
+  .link-adress {
+    margin-top: 20px;
+    text-align: center;
+    font-size: x-large;
+    font-family: "Bebas Neue";
+  }
