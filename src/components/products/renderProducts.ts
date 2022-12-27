@@ -158,6 +158,7 @@ function readQueryAndUpdateFilters(filters: IFilters) {
         }
         else if (keys === "search") {
           filters.search = value;
+          console.log("search", value)
         }
         else if (keys === "sort") {
           filters.sort = +value;

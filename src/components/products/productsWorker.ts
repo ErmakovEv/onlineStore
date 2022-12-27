@@ -1,5 +1,5 @@
 import { IFilters, ISearch } from "../app/app";
-import { renderProducts } from "./renderProducts"
+import { IProduct, renderProducts } from "./renderProducts"
 import products from "../db/shop.json"
 import locationResolver from "../app/router"
 
@@ -153,7 +153,7 @@ function makeQueryParamString(filters: IFilters): string {
 
   if (filters.sort >= 0) {
     const sortParams = filters.sort;
-    searchParams.set("search", String(sortParams));
+    searchParams.set("sort", String(sortParams));
   } 
 
   tmpQuery = searchParams.toString();
