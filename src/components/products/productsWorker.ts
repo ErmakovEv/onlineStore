@@ -1,5 +1,5 @@
 import { IFilters, ISearch } from "../app/app";
-import { renderProducts } from "./renderProducts"
+import { IProduct, renderProducts } from "./renderProducts"
 import products from "../db/shop.json"
 import locationResolver from "../app/router"
 
@@ -7,7 +7,8 @@ export default function eventWorker(filters: IFilters) {
   listenCheckboxFilters(filters);
   listenSlidersFilters(filters);
   listenButtonsInProductCard(filters);
-
+  listenInputSearch(filters);
+  listenChangeSortSelect(filters);
   return filters;
 }
 
@@ -84,6 +85,26 @@ function listenButtonsInProductCard(filters: IFilters) {
   }
 }
 
+function listenInputSearch(filters: IFilters) {
+  const search = document.querySelector<HTMLInputElement>(".search");
+  if(search) {
+    search.addEventListener("input", (e) => {
+      filters.search = (e.target as HTMLInputElement).value;
+      changeQueryAndRenderProduct(filters);
+    })
+  }
+}
+
+function listenChangeSortSelect(filters: IFilters) {
+  const select = document.querySelector<HTMLSelectElement>(".sort-select");
+  if(select) {
+    select.addEventListener("change", (e) => {
+      filters.sort = (e.target as HTMLSelectElement).options.selectedIndex;
+      changeQueryAndRenderProduct(filters);
+    })
+  }
+}
+
 
 function makeQueryParamString(filters: IFilters): string {
   const path = window.location.pathname;
@@ -124,6 +145,16 @@ function makeQueryParamString(filters: IFilters): string {
     const infoParam = `${filters.info}`;
     searchParams.set("info", infoParam);
   }
+
+  if (filters.search) {
+    const serParams = filters.search;
+    searchParams.set("search", serParams);
+  }
+
+  if (filters.sort >= 0) {
+    const sortParams = filters.sort;
+    searchParams.set("sort", String(sortParams));
+  } 
 
   tmpQuery = searchParams.toString();
   if (tmpQuery) {

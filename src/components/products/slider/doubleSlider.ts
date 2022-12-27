@@ -4,6 +4,7 @@ import products from "../../db/shop.json"
 
 
 export default function renderSliders(range: IRange) {
+  console.log("range", range)
   let max = 0;
   products.forEach(product => {
     if (product["price"] > max) max = product["price"];
