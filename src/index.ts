@@ -1,10 +1,11 @@
 import "./style.scss";
 import App from "./components/app/app";
-import makeSomeSnow from "./utils/snow"
+import snowSwitch from "./utils/snow"
 
 const app = new App();
 app.start();
-makeSomeSnow();
+snowSwitch();
+
 
 
 //  Добавляю консоль
