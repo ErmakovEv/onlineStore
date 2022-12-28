@@ -42,8 +42,11 @@ function listenSlidersFilters(filters: IFilters) {
   const minPrice = document.querySelector<HTMLDivElement>(".minPrice");
   const maxPrice = document.querySelector<HTMLDivElement>(".maxPrice");
   if (sliders) {
+
     sliders.forEach(slider => {
+      console.dir(slider)
       slider.addEventListener('input', (e) => {
+        console.log(e.target)
         const target = e.target as HTMLInputElement;
         if (target.id === 'fromSlider' || target.id === 'fromInput') {
           filters.range.minPrice = +target.value;
