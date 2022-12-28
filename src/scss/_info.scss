@@ -38,15 +38,18 @@
     margin: 10px 10px;
  }
   .products-photos-slides img{
+   height: 80px;
     margin: 10px 0;
-    box-shadow: 0 4px 10px rgba(0,0,0, 0.76);
+    box-shadow: 0 4px 10px rgba(0,0,0, 0.76);;
     width: 80%;
     border: 1px solid rgba(166, 0, 255, 0.658);
     border-radius: 0.5rem;
     cursor: pointer;
+    padding-left: 10px;
  }
 
  .main-photo {
+  height: 300px;
   box-shadow: 0 4px 10px rgba(0,0,0, 0.76);;
     margin: 10px 15px;
     width: 70%;
@@ -210,6 +213,10 @@
 
 
   .link-adress {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
     margin-top: 20px;
     text-align: center;
     font-size: x-large;

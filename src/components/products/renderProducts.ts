@@ -96,10 +96,10 @@ const createHTMLproduct = (prod: IProduct) => {
             <p class="product product-price">Price:${prod.price}</p>
           </div>
         </div>  
-      
-        <a href="#/productCard/" class="ref" data-href="#/productCard/" data-title="${prod.title}">Инфо</a>
-        <button class="addCart" data-title="${prod.title}">add</button>
-      
+        <div class="buttons-add">
+        <a href="#/productCard/" class="ref details-btn" data-href="#/productCard/" data-title="${prod.title}">Details</a>
+        <button class="addCart" data-title="${prod.title}">Add</button>
+      </div>
       </div>
       `
 }

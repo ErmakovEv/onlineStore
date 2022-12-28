@@ -25,9 +25,9 @@ export default function infoLoader(filters: IFilters, app: HTMLDivElement,) {
            <div class="product-data">
                <div class="product-photos">
                    <div class="products-photos-slides">
-                       <img src="">
-                       <img src="">
-                       <img src="">
+                       <img src="${elem!.images[0]}">
+                       <img src="${elem!.images[1]}">
+                       <img src="${elem!.images[2]}">
                    </div>
                    <div class="main-photo">
                        <img src="${elem!.thumbnail}">
