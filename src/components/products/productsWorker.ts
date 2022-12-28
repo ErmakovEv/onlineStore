@@ -63,7 +63,7 @@ function listenButtonsInProductCard(filters: IFilters) {
   if (blockProduct) {
     blockProduct.addEventListener("click", (e) => {
       if ((e.target as HTMLLinkElement).tagName === "A") {
-        const nameCurrentProduct = (e.target as HTMLLinkElement)!.parentElement!.children[0].textContent;
+        const nameCurrentProduct = (e.target as HTMLLinkElement)!.dataset.title;
         const currentProduct = products.find(item => item["title"] === nameCurrentProduct)
         const targetId = currentProduct!["id"];
         filters.info = targetId
@@ -73,7 +73,7 @@ function listenButtonsInProductCard(filters: IFilters) {
         filters = locationResolver(filters, String((e.target as HTMLLinkElement).dataset.href));
       }
       else if ((e.target as HTMLButtonElement).tagName === "BUTTON") {
-        const nameCurrentProduct = (e.target as HTMLLinkElement)!.parentElement!.children[0].textContent;
+        const nameCurrentProduct = (e.target as HTMLLinkElement)!.dataset.title;
         const currentProduct = products.find(item => item["title"] === nameCurrentProduct)
         const targetId = currentProduct!["id"];
         const set = new Set(filters.cart);

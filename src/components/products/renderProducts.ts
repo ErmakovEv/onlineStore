@@ -97,8 +97,8 @@ const createHTMLproduct = (prod: IProduct) => {
           </div>
         </div>  
       
-        <a href="#/productCard/" class="ref" data-href="#/productCard/">Инфо</a>
-        <button class="addCart">add</button>
+        <a href="#/productCard/" class="ref" data-href="#/productCard/" data-title="${prod.title}">Инфо</a>
+        <button class="addCart" data-title="${prod.title}">add</button>
       
       </div>
       `
