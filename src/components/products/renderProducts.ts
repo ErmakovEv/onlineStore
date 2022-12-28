@@ -67,19 +67,34 @@ function renderFilters(app: HTMLDivElement, filtersCheckbox: IFiltersCheckbox, f
   }
 }
 
+
 //отрисовка карточки продукта
+import "/src/scss/_renderProd.scss";
+import "/src/scss/_base.scss";
 const createHTMLproduct = (prod: IProduct) => {
   return `
-      <div class="card card-${prod.title}">
-          <h2>${prod.title}</h2>
-          <img class="thumbnail" src="${prod.thumbnail}" alt="telephone">
-          <h2>${prod.description}</h2>
-          <p>${prod.price}</p>
-          <a href="#/productCard/" class="ref" data-href="#/productCard/">Инфо</a>
-          <button class="addCart">add</button>
+  <div class="card card-${prod.title}">
+        <div class="product-item">
+          <div class="product-photo">
+             <img class="thumbnail" src="${prod.thumbnail}" alt="${prod.brand}">
+          </div>  
+          <div class="product-list">
+            <h3 class="product product-name">${prod.title}</h3>
+            <p class="product product-сategory">Category:${prod.category}</p>
+            <p class="product product-brand">Brand:${prod.brand}</p>
+            <p class="product product-discount">Discount:${prod.discountPercentage}</p>
+            <p class="product product-raiting">Raiting:${prod.rating}</p>
+            <p class="product product-price">Price:${prod.price}</p>
+          </div>
+        </div>  
+      
+        <a href="#/productCard/" class="ref" data-href="#/productCard/">Инфо</a>
+        <button class="addCart">add</button>
+      
       </div>
       `
 }
+
 
 //рендер продуктов
 export function renderProducts(filters: IFilters) {
