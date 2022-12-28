@@ -86,20 +86,23 @@ function listenButtonsInProductCard(filters: IFilters) {
 }
 
 function listenInputSearch(filters: IFilters) {
-  const search = document.querySelector<HTMLInputElement>(".search");
-  if(search) {
+  const search = document.querySelector(".search");
+  if(search instanceof HTMLInputElement) {
     search.addEventListener("input", (e) => {
-      filters.search = (e.target as HTMLInputElement).value;
-      changeQueryAndRenderProduct(filters);
+      if (e.target instanceof HTMLInputElement) {
+        filters.search = e.target.value;
+        changeQueryAndRenderProduct(filters);
+      }
     })
   }
 }
 
 function listenChangeSortSelect(filters: IFilters) {
-  const select = document.querySelector<HTMLSelectElement>(".sort-select");
-  if(select) {
+  const select = document.querySelector(".sort-select");
+  if (select instanceof HTMLSelectElement) {
     select.addEventListener("change", (e) => {
-      filters.sort = (e.target as HTMLSelectElement).options.selectedIndex;
+      if (e.target instanceof HTMLSelectElement)
+      filters.sort = e.target.options.selectedIndex;
       changeQueryAndRenderProduct(filters);
     })
   }

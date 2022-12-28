@@ -1,6 +1,6 @@
 import "./style.scss";
 import App from "./components/app/app";
-import snowSwitch from "./utils/snow"
+import snowSwitch from "./components/utils/snow"
 
 const app = new App();
 app.start();
