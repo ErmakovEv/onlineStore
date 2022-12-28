@@ -93,11 +93,6 @@ main .container {
   justify-content: space-between;
   margin-top:30px;
 }
-.products {
-  display: flex;
-  flex-wrap: wrap;
-  flex-basis: 80%;
-}
 
 
 
@@ -107,15 +102,15 @@ main .container {
 
 }
 
-// .products {
-//   display: flex;
-//   flex-wrap: wrap;
-//   flex-basis: 60%;
-// }
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  flex-basis: 80%;
+}
 
-// .card {
-//   border: 2px solid black;
-// }
+.card {
+  border: 2px solid black;
+}
 
 .range_container {
   display: flex;
@@ -137,36 +132,36 @@ main .container {
   color: #635a5a;
 }
 
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  pointer-events: all;
-  width: 24px;
-  height: 24px;
-  background-color: #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px #C6C6C6;
-  cursor: pointer;
-}
+// input[type=range]::-webkit-slider-thumb {
+//   -webkit-appearance: none;
+//   pointer-events: all;
+//   width: 24px;
+//   height: 24px;
+//   background-color: #fff;
+//   border-radius: 50%;
+//   box-shadow: 0 0 0 1px #C6C6C6;
+//   cursor: pointer;
+// }
 
-input[type=range]::-moz-range-thumb {
-  -webkit-appearance: none;
-  pointer-events: all;
-  width: 24px;
-  height: 24px;
-  background-color: #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px #C6C6C6;
-  cursor: pointer;  
-}
+// input[type=range]::-moz-range-thumb {
+//   -webkit-appearance: none;
+//   pointer-events: all;
+//   width: 24px;
+//   height: 24px;
+//   background-color: #fff;
+//   border-radius: 50%;
+//   box-shadow: 0 0 0 1px #C6C6C6;
+//   cursor: pointer;  
+// }
 
-input[type=range]::-webkit-slider-thumb:hover {
-  background: #f7f7f7;
-}
+// input[type=range]::-webkit-slider-thumb:hover {
+//   background: #f7f7f7;
+// }
 
-input[type=range]::-webkit-slider-thumb:active {
-  box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
-  -webkit-box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
-}
+// input[type=range]::-webkit-slider-thumb:active {
+//   box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
+//   -webkit-box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
+// }
 
 input[type="number"] {
   color: #8a8383;
@@ -191,10 +186,7 @@ input[type="range"] {
   pointer-events: none;
 }
 
-#fromSlider {
-  height: 0;
-  z-index: 1;
-}
+
 
 .btnSnow {
   position: fixed;

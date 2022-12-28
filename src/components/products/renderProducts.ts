@@ -34,13 +34,22 @@ const createHTMLfilter = (str: string, filterInstate: string[]) => {
     `
 }
 
+//отрисовка sidebar
+import "/src/scss/_sidebar.scss";
+
 //рендер фильтра
 function renderFilters(app: HTMLDivElement, filtersCheckbox: IFiltersCheckbox, filters: IFilters) {
   app.innerHTML = `
     <div class="container">
-      <div class="allFilters">
-        <div class="containerOfFilters"></div>
-        <div class="containerOfSliders"></div>
+      <div class="allFilters side-bar">
+        <div class="containerOfFilters">
+        <h3 class="caterogy-tittle  tittle">Category</h3>
+                <hr>
+                </div>
+        <div class="containerOfSliders">
+        <h3 class="price-tittle  tittle">Price</h3>
+                <hr>
+                </div>
         <div class="containerOfSearch">
           <input type="text" class="search" value=${filters.search}>
         </div>
@@ -87,10 +96,10 @@ const createHTMLproduct = (prod: IProduct) => {
             <p class="product product-price">Price:${prod.price}</p>
           </div>
         </div>  
-      
-        <a href="#/productCard/" class="ref" data-href="#/productCard/" data-title="${prod.title}">Инфо</a>
-        <button class="addCart" data-title="${prod.title}">add</button>
-      
+        <div class="buttons-add">
+        <a href="#/productCard/" class="ref details-btn" data-href="#/productCard/" data-title="${prod.title}">Details</a>
+        <button class="addCart" data-title="${prod.title}">Add</button>
+      </div>
       </div>
       `
 }
