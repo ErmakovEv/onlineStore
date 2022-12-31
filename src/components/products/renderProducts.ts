@@ -11,12 +11,12 @@ export default function renderProductsPage(
   //ПЕРВОНАЧАЛЬНЫЙ РЕНДЕР СТРАНИЦЫ
   //считываем квери-параметры из URL и обновляем state
   filters = readQueryAndUpdateFilters(filters);
-
+  const productForRender = filteredProduct(filters);
   //ВСЕ фильтры TODO реализация фильтров dual-slider
   const checkboxFilters = createCheckboxFilter();
   renderFilters(app, checkboxFilters, filters);
   renderSliders(filters.range);
-  renderProducts(filters);
+  renderProducts(filters, productForRender);
 
   // ВЗАИМОДЕЙСТВИЕ СО СТРАНИЦЕЙ
   // eventWorker(state)
@@ -25,10 +25,10 @@ export default function renderProductsPage(
 
 
 //отрисовка фильтра
-const createHTMLfilter = (str: string, filterInstate: string[]) => {
+const createHTMLfilter = (str: string, item: string, filterInstate: string[]) => {
   return `
     <div class="filter">
-      <input type="checkbox" class="checkbox" id=${str} ${filterInstate.indexOf(str) >= 0 ? "checked" : ""}>
+      <input type="checkbox" class="checkbox" id=${str} ${filterInstate.indexOf(str) >= 0 ? "checked" : ""} data-state=${item} data-name=${str}>
       <label for=${str}>${str}</label>
     </div>
     `
@@ -43,9 +43,9 @@ function renderFilters(app: HTMLDivElement, filtersCheckbox: IFiltersCheckbox, f
     <div class="container">
       <div class="allFilters side-bar">
         <div class="containerOfFilters">
-        <h3 class="caterogy-tittle  tittle">Category</h3>
-                <hr>
-                </div>
+          <h3 class="caterogy-tittle  tittle">Category</h3>
+          <hr>
+        </div>
         <div class="containerOfSliders">
         <h3 class="price-tittle  tittle">Price</h3>
                 <hr>
@@ -68,7 +68,7 @@ function renderFilters(app: HTMLDivElement, filtersCheckbox: IFiltersCheckbox, f
   for (const item in filtersCheckbox) {
     const ul = document.createElement('ul');
     ul.classList.add(item);
-    const liHtml: string = filtersCheckbox[item as keyof IFiltersCheckbox].map((i: string) => createHTMLfilter(i, filters.state[item as keyof ISearch])).join("");
+    const liHtml: string = filtersCheckbox[item as keyof IFiltersCheckbox].map((i: string) => createHTMLfilter(i, item, filters.state[item as keyof ISearch])).join("");
     ul.innerHTML = liHtml;
     if (filtersHTML) {
       filtersHTML.append(ul);
@@ -106,56 +106,16 @@ const createHTMLproduct = (prod: IProduct) => {
 
 
 //рендер продуктов
-export function renderProducts(filters: IFilters) {
-
-  let cntFilter = 0;
-  for (const f in filters.state) {
-    if (filters.state[f as keyof ISearch].length > 0) cntFilter++;
-  }
+export function renderProducts(filters: IFilters, productForRender: IProduct[]) {
   const prod = document.querySelector('.products');
-  let productForRender: IProduct[] = products.filter(product => {
-    let i = 0;
-    for (const f in filters.state) {
-      const value = product[f as keyof ISearch]
-      if (filters.state[f as keyof ISearch].indexOf(value) >= 0) i++;
-    }
-
-    if (i === cntFilter) return true
-    return false
-  })
-
-  productForRender = productForRender.filter(product => {
-    if (product["price"] < filters.range.minPrice || product["price"] > filters.range.maxPrice) return false;
-    return true;
-  })
-
-  productForRender = productForRender.filter(product => {
-    if (product["title"].indexOf(filters.search) >= 0 ||
-      product["description"].indexOf(filters.search) >= 0 ||
-      product["brand"].indexOf(filters.search) >= 0 ||
-      product["category"].indexOf(filters.search) >= 0) return true;
-    return false;
-  })
-
-  console.log(filters)
-
-  if (filters.sort === 1) {
-    productForRender.sort((a: IProduct, b: IProduct) => a["price"] - b["price"]);
-  } else if (filters.sort === 0) {
-    productForRender.sort((a: IProduct, b: IProduct) => b["price"] - a["price"]);
-  } else {
-    productForRender.sort((a: IProduct, b: IProduct) => {
-      if (a["title"] > b["title"]) return 1;
-      else if (a["title"] < b["title"]) return -1;
-      else return 0;
-    })
-  }
-
   if (prod) {
     prod.innerHTML = `
       ${productForRender.map(prod => createHTMLproduct(prod)).join("")}
   `
   }
+
+  updFilters(filters, productForRender);
+
 }
 
 //считываем квери-параметры и обновляем state
@@ -182,7 +142,6 @@ function readQueryAndUpdateFilters(filters: IFilters) {
         }
         else if (keys === "search") {
           filters.search = value;
-          console.log("search", value)
         }
         else if (keys === "sort") {
           filters.sort = +value;
@@ -193,16 +152,9 @@ function readQueryAndUpdateFilters(filters: IFilters) {
       }
     }
     if (filters.range["minPrice"] === 0 && filters.range["maxPrice"] === 0) {
-      let max = 0;
-      products.forEach(product => {
-        if (product["price"] > max) max = product["price"];
-      })
-      let min = max;
-      products.forEach(product => {
-        if (product["price"] < min) min = product["price"];
-      })
-      filters.range["minPrice"] = min;
-      filters.range["maxPrice"] = max;
+      const ans = rangePrice(products);
+      filters.range["minPrice"] = ans["min"];
+      filters.range["maxPrice"] = ans["max"];
     }
   }
 
@@ -225,6 +177,103 @@ function createCheckboxFilter(): IFiltersCheckbox {
 }
 
 
+export function filteredProduct(filters: IFilters): IProduct[] {
+  let cntFilter = 0;
+  for (const f in filters.state) {
+    if (filters.state[f as keyof ISearch].length > 0) cntFilter++;
+  }
+  let productForRender: IProduct[]
+  if(cntFilter) {
+    productForRender= products.filter(product => {
+      let i = -1;
+      for (const f in filters.state) {
+        const value = product[f as keyof ISearch]
+        if (filters.state[f as keyof ISearch].indexOf(value) >= 0) i++;
+      }
+  
+      if (i > -1) return true
+      return false
+    })
+  }
+  else {
+    productForRender = products;
+  }
+
+
+  productForRender = productForRender.filter(product => {
+    if (product["price"] < filters.range.minPrice || product["price"] > filters.range.maxPrice) return false;
+    return true;
+  })
+
+  productForRender = productForRender.filter(product => {
+    if (product["title"].indexOf(filters.search) >= 0 ||
+      product["description"].indexOf(filters.search) >= 0 ||
+      product["brand"].indexOf(filters.search) >= 0 ||
+      product["category"].indexOf(filters.search) >= 0) return true;
+    return false;
+  })
+
+  if (filters.sort === 1) {
+    productForRender.sort((a: IProduct, b: IProduct) => a["price"] - b["price"]);
+  } else if (filters.sort === 0) {
+    productForRender.sort((a: IProduct, b: IProduct) => b["price"] - a["price"]);
+  } else {
+    productForRender.sort((a: IProduct, b: IProduct) => {
+      if (a["title"] > b["title"]) return 1;
+      else if (a["title"] < b["title"]) return -1;
+      else return 0;
+    })
+  }
+  return productForRender;
+}
+
+
+function updFilters(filters: IFilters, productForRender: IProduct[]) {
+  const checkboxFilters = document.querySelectorAll<HTMLInputElement>(".checkbox");
+
+  checkboxFilters.forEach( checkbox => {
+
+    let flagState = -1;
+    let flagName = -1;
+    if(checkbox.dataset.state === 'category') {
+      flagState = productForRender.findIndex(product => product['category'] === checkbox.dataset.name);
+    }
+    else {
+      flagName = productForRender.findIndex(product => product['brand'] === checkbox.dataset.name);
+    }
+    if(flagState === -1 && flagName === -1) {
+      (checkbox.nextElementSibling as HTMLLabelElement).style.color = "grey"
+    }
+    else {
+      (checkbox.nextElementSibling as HTMLLabelElement).style.color = "black"
+    }
+  })
+
+  const fromSlider = document.querySelector<HTMLInputElement>('#fromSlider');
+  const toSlider = document.querySelector<HTMLInputElement>('#toSlider');
+  const minPrice = document.querySelector(".minPrice")
+  const maxPrice = document.querySelector(".maxPrice")
+  const ans = rangePrice(productForRender);
+  fromSlider!.value = String(ans.min);
+  toSlider!.value = String(ans.max);
+  minPrice!.textContent = String(ans.min);
+  maxPrice!.textContent = String(ans.max);
+
+
+  
+}
+
+function rangePrice(products: IProduct[]) {
+  let max = 0;
+  products.forEach(product => {
+    if (product["price"] > max) max = product["price"];
+  })
+  let min = max;
+  products.forEach(product => {
+    if (product["price"] < min) min = product["price"];
+  })
+  return {min, max}
+}
 
 /////////
 interface IFiltersCheckbox {

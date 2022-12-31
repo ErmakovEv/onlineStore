@@ -19,22 +19,22 @@ export default function renderSliders(range: IRange) {
     slidersContainerHTML.classList.add("range_container");
     slidersContainerHTML.innerHTML = `
       <div class="sliders_control">
-          <input class="slider" id="fromSlider" type="range" value="${range.minPrice}"  min="${min}" max="${max}"/>
-          <input class="slider" id="toSlider" type="range" value="${range.maxPrice}"  min="${min}" max="${max}"/>
+          <input class="slider min" id="fromSlider" type="range" value="${range.minPrice}"  min="${min}" max="${max}"/>
+          <input class="slider max" id="toSlider" type="range" value="${range.maxPrice}"  min="${min}" max="${max}"/>
           <div class="minPrice">${range.minPrice}</div>
           <div class="maxPrice">${range.maxPrice}</div>
       </div>
     `
   }
 
-  const fromSlider = document.querySelector<HTMLInputElement>('#fromSlider');
-  const toSlider = document.querySelector<HTMLInputElement>('#toSlider');
-  fromSlider?.addEventListener('change', e => {
-    console.log((e.target as HTMLInputElement).value)
-  })
-  toSlider?.addEventListener('change', e => {
-    console.log((e.target as HTMLInputElement).value)
-  })
+  // const fromSlider = document.querySelector<HTMLInputElement>('#fromSlider');
+  // const toSlider = document.querySelector<HTMLInputElement>('#toSlider');
+  // fromSlider?.addEventListener('change', e => {
+  //   console.log((e.target as HTMLInputElement).value)
+  // })
+  // toSlider?.addEventListener('change', e => {
+  //   console.log((e.target as HTMLInputElement).value)
+  // })
   // const fromInput = document.querySelector<HTMLInputElement>('#fromInput');
   // const toInput = document.querySelector<HTMLInputElement>('#toInput');
   // if(fromSlider && toSlider && fromInput && toInput) {

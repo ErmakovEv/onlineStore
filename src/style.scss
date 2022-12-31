@@ -200,3 +200,10 @@ input[type="range"] {
   width: 40px;
 }
 
+.slider .min {
+  z-index: 1;
+}
+
+.slider .max {
+  z-index: 5;
+}

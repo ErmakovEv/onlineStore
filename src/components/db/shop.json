@@ -106,7 +106,7 @@
         "discountPercentage":10.23,
         "rating":4.43,
         "stock":68,
-        "brand":"Microsoft Surface",
+        "brand":"Microsoft-Surface",
         "category":"laptops",
         "thumbnail":"https://i.dummyjson.com/data/products/8/thumbnail.jpg",
         "images":["https://i.dummyjson.com/data/products/8/1.jpg","https://i.dummyjson.com/data/products/8/2.jpg",

@@ -1,5 +1,5 @@
 import { IFilters, ISearch } from "../app/app";
-import { IProduct, renderProducts } from "./renderProducts"
+import { filteredProduct, renderProducts } from "./renderProducts"
 import products from "../db/shop.json"
 import locationResolver from "../app/router"
 
@@ -46,7 +46,6 @@ function listenSlidersFilters(filters: IFilters) {
     sliders.forEach(slider => {
       console.dir(slider)
       slider.addEventListener('input', (e) => {
-        console.log(e.target)
         const target = e.target as HTMLInputElement;
         if (target.id === 'fromSlider' || target.id === 'fromInput') {
           filters.range.minPrice = +target.value;
@@ -174,5 +173,6 @@ type cb = (filters: IFilters) => void
 const changeQueryAndRenderProduct: cb = (filters: IFilters) => {
   const pathQueryHash = makeQueryParamString(filters);
   window.history.pushState({}, "", pathQueryHash);
-  renderProducts(filters);
+  const productForRender = filteredProduct(filters);
+  renderProducts(filters, productForRender);
 }
