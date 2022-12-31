@@ -1,5 +1,5 @@
 import { IFilters, ISearch } from "../app/app";
-import { filteredProduct, renderProducts } from "./renderProducts"
+import { filteredProduct, renderProducts, renderTotal } from "./renderProducts"
 import products from "../db/shop.json"
 import locationResolver from "../app/router"
 
@@ -81,7 +81,7 @@ function listenButtonsInProductCard(filters: IFilters) {
         const set = new Set(filters.cart);
         set.has(targetId) ? set.delete(targetId) : set.add(targetId)
         filters.cart = Array.from(set);
-        console.log(filters);
+        renderTotal(filters)
       }
     })
   }
@@ -175,4 +175,5 @@ const changeQueryAndRenderProduct: cb = (filters: IFilters) => {
   window.history.pushState({}, "", pathQueryHash);
   const productForRender = filteredProduct(filters);
   renderProducts(filters, productForRender);
+
 }

@@ -17,6 +17,7 @@ export default function renderProductsPage(
   renderFilters(app, checkboxFilters, filters);
   renderSliders(filters.range);
   renderProducts(filters, productForRender);
+  renderTotal(filters)
 
   // ВЗАИМОДЕЙСТВИЕ СО СТРАНИЦЕЙ
   // eventWorker(state)
@@ -273,6 +274,10 @@ function rangePrice(products: IProduct[]) {
     if (product["price"] < min) min = product["price"];
   })
   return {min, max}
+}
+
+export function renderTotal (filters: IFilters) {
+  document.querySelector(".cart-count-tittle")!.textContent = `Cart total: ${filters.cart.reduce( (sum, product) => sum + product, 0)}`
 }
 
 /////////
