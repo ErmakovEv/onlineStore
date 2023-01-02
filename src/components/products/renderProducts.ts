@@ -115,9 +115,14 @@ const createHTMLproduct = (prod: IProduct) => {
 export function renderProducts(filters: IFilters, productForRender: IProduct[]) {
   const prod = document.querySelector('.products');
   if (prod) {
-    prod.innerHTML = `
+    if(productForRender.length) {
+      prod.innerHTML = `
       ${productForRender.map(prod => createHTMLproduct(prod)).join("")}
-  `
+      `
+    } else {
+      prod.innerHTML = `Товаров не найдено..`
+    }
+
   }
 
   updFilters(filters, productForRender);
