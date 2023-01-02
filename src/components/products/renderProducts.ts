@@ -43,6 +43,10 @@ function renderFilters(app: HTMLDivElement, filtersCheckbox: IFiltersCheckbox, f
   app.innerHTML = `
     <div class="container">
       <div class="allFilters side-bar">
+        <div class="buttonsForFilters">
+          <button class="filters-btn reset-btn">Reset filters</button>
+          <button class="filters-btn copylink-btn">Copy link</button>
+        </div>
         <div class="containerOfFilters">
           <h3 class="caterogy-tittle  tittle">Category</h3>
           <hr>
@@ -61,6 +65,7 @@ function renderFilters(app: HTMLDivElement, filtersCheckbox: IFiltersCheckbox, f
             <option value="alphabetical" ${filters.sort === 2 ? "selected" : ""}>Alphabetical</option>
         </select>
       </div>
+
       <div class="products"></div>
     </div>
     `;
@@ -277,7 +282,10 @@ function rangePrice(products: IProduct[]) {
 }
 
 export function renderTotal (filters: IFilters) {
-  document.querySelector(".cart-count-tittle")!.textContent = `Cart total: ${filters.cart.reduce( (sum, product) => sum + product, 0)}`
+  document.querySelector(".cart-count-tittle")!.textContent = `Cart total: ${filters.cart.reduce( (sum, product) => {
+    const prod = products.find(item => item.id === product);
+    return sum + prod!["price"]
+  }, 0)}$`
 }
 
 /////////

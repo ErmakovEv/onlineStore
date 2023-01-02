@@ -6,6 +6,7 @@ import locationResolver from "../app/router"
 export default function eventWorker(filters: IFilters) {
   listenCheckboxFilters(filters);
   listenSlidersFilters(filters);
+  listenFilterButtons(filters)
   listenButtonsInProductCard(filters);
   listenInputSearch(filters);
   listenChangeSortSelect(filters);
@@ -44,7 +45,6 @@ function listenSlidersFilters(filters: IFilters) {
   if (sliders) {
 
     sliders.forEach(slider => {
-      console.dir(slider)
       slider.addEventListener('input', (e) => {
         const target = e.target as HTMLInputElement;
         if (target.id === 'fromSlider' || target.id === 'fromInput') {
@@ -175,5 +175,37 @@ const changeQueryAndRenderProduct: cb = (filters: IFilters) => {
   window.history.pushState({}, "", pathQueryHash);
   const productForRender = filteredProduct(filters);
   renderProducts(filters, productForRender);
+}
 
+function listenFilterButtons(filters: IFilters) {
+  const btnsForfilters = document.querySelectorAll('.filters-btn');
+  btnsForfilters.forEach(btn => {
+    btn.addEventListener('click', e => {
+      const target = e.target;
+      if(target instanceof HTMLButtonElement) {
+        if(target.classList.contains('reset-btn')) {
+          console.log('reset');
+          filters.state['category'] = [];
+          filters.state['brand'] = [];
+          filters.range['minPrice'] = 0;
+          filters.range['maxPrice'] = 0;
+          filters.info = 0;
+          filters.search = '';
+          const pathQueryHash = makeQueryParamString(filters);
+          window.history.pushState({}, "", pathQueryHash);
+          locationResolver(filters, "#/");
+        }
+        else {
+          navigator.clipboard.writeText(window.location.href)
+          .then(() => {
+              console.log('Text copied to clipboard');
+          })
+          .catch(err => {
+              console.error('Error in copying text: ', err);
+          });
+        }
+      }
+
+    })
+  })
 }
