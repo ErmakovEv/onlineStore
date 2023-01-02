@@ -193,7 +193,7 @@ function listenFilterButtons(filters: IFilters) {
           filters.search = '';
           const pathQueryHash = makeQueryParamString(filters);
           window.history.pushState({}, "", pathQueryHash);
-          locationResolver(filters, "#/");
+          locationResolver(filters, "#");
         }
         else {
           navigator.clipboard.writeText(window.location.href)

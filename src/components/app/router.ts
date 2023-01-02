@@ -9,18 +9,19 @@ const locationResolver = (
   filters: IFilters,
   location: string | Window["location"]
 ) => {
+  console.log(location)
   if (app) {
     if (location === "" ) {
-      location = "#/";
+      location = "#";
     }
     switch (location) {
-      case "#/":
+      case "#":
         filters = productsLoader(filters, app);
         break;
-      case "#/cart/":
+      case "#/cart":
         cartLoader(filters, app);
         break;
-      case "#/productCard/":
+      case "#/productCard":
         //TODO проверка, если нет в массиве продуктов - 404
         // app.innerHTML = `
         //           <h1>${location}</h1>
