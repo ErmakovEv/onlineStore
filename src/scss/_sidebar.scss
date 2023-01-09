@@ -1,5 +1,17 @@
 
 
+.buttonsForFilters{
+    margin: 0 auto;
+    padding-top: 15px;
+}
+.filters-btn {
+    background: linear-gradient(to left, #743ad52e, #d53a9d63);
+    padding: 7px 10px;
+    border-radius: 10px;
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid white;
+    font-family: 'Montserrat';
+}
     .side-bar {
         height: 700px;
         box-shadow: 0 7px 20px rgba(0,0,0, .1);

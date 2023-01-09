@@ -3,6 +3,9 @@ import products from "../db/shop.json"
 import { IProduct } from "../products/renderProducts";
 import locationResolver from "../app/router";
 
+
+import { renderTotal } from "../products/renderProducts";
+
 import "/src/scss/_cart.scss";
 import "/src/scss/_base.scss";
 
@@ -67,37 +70,51 @@ export default function cartLoader(filters: IFilters, app: HTMLDivElement,) {
             </div>
         </div>
     </section>
-    <section class="sum-res">
-    <div class="container">
-        <div class="sum">
-            <div class="sum-tittle">
-                <h2>Summary</h2>
-                <div class="sum-items-num ">
-                    <span>Products:</span>
-                </div>
-                <div class="sum-totalcost ">
-                    <span>Total cost:</span>
-                </div>
-                <div class="sum-promocod">
-                    <input  type="search" placeholder="Enter promo code" class="promo-code">
-                </div>
-                <span class="test-code">Promo for test: 'RS', 'EPM'</span>
-                <div class="sum-btn">
-                <a href="#/popup" class="ref buy-now" data-href="#/popup">
-                <button class="sum-btn btn-7"><span>Buy now</span></button></a>
-                </div>
-            </div>
-    
-        </div>
-    </div>
-    
-    </section>
     </div>
         `
   }).join("");
 
   app.innerHTML = html;
+ 
+  const emptyBox = document.createElement('div');
+  emptyBox.className = 'empty-box';
+  emptyBox.innerHTML = '<p>Cart is empty. Please add product to the cart'
+ 
+  const summary = document.createElement('section');
+  summary.className= "sum-res";
+  summary.innerHTML =  `<div class="container">
+  <div class="sum">
+      <div class="sum-tittle">
+          <h2>Summary</h2>
+          <div class="sum-items-num ">
+              <span>Products: ${elemsToCart.length}</span>
+          </div>
+          <div class="sum-totalcost ">
+              <span>Total cost:</span>
+          </div>
+          <div class="sum-promocod">
+              <input  type="search" placeholder="Enter promo code" class="promo-code">
+          </div>
+          <span class="test-code">Promo for test: 'RS', 'EPM'</span>
+          <div class="sum-btn">
+          <a href="#/popup" class="ref buy-now" data-href="#/popup">
+              <button class="sum-btn btn-7"><span>Buy now</span></button><a>
+          </div>
+      </div>
+
+  </div>
+</div>`;
+
+if (elemsToCart.length > 0) {
+   app.prepend(summary);
+} else {
+        app.append(emptyBox);
+    
+}
+
+
   loaderByuNowBtn(filters)
+  useRenderTotalSum(filters)
 }
 
 function loaderByuNowBtn(filters: IFilters) {
@@ -106,4 +123,12 @@ function loaderByuNowBtn(filters: IFilters) {
         console.log(byuNowBtn!.href);
         filters = locationResolver(filters, String(byuNowBtn!.dataset.href));
     });
+}
+
+
+function useRenderTotalSum(filters: IFilters) {
+    document.querySelector(".sum-totalcost")!.textContent = `Total cost: ${filters.cart.reduce( (sum, product) => {
+        const prod = products.find(item => item.id === product);
+        return sum + prod!["price"]
+      }, 0)}$`
 }

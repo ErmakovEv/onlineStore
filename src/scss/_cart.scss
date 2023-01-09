@@ -227,6 +227,9 @@
     text-align: center;
 }
 
+.sum-res {
+    margin: 0 auto;
+}
 
 .sum {
     display: flex;
@@ -241,6 +244,8 @@
     height: -moz-fit-content;
     height: fit-content;
     box-shadow: 0 4px 10px rgba(0,0,0, 0.76);
+    padding: 20px;
+    margin: 0 auto;
 }
 
 /* .sum-tittle {
@@ -403,4 +408,15 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+}
+
+.empty-box {
+    height: 76vh;
+}
+.empty-box p{
+    color: white;
+    font-size: 40px;
+    padding-top: 101px;
+    font-family: 'Bebas Neue';
+    text-align: center;
 }
