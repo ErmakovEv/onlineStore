@@ -1,5 +1,5 @@
 .footer {
-    box-shadow: 0 4px 10px rgba(0,0,0, 0.76);
+   position: relative;
    
 }
 
@@ -21,4 +21,11 @@
     margin-right: 20px;
     font-family: 'Bebas Neue';
     font-size: 25px;
+}
+.fot-fix {
+    position:fixed;
+    left:0;
+    bottom:0;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0,0,0, 0.76);
 }
