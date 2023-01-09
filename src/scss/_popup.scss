@@ -23,8 +23,11 @@
  
  .popup_content {
     width: 600px;
-    background-color: white;
+    background-color: #dddddd;
     border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0, 0.76);
+    padding: 10px;
+    
  }
  
  .popup-form {
@@ -93,6 +96,8 @@
  .btn:hover:before {
     transform: translate(4px, 4px);
  }
+
+
  
  /* bank card */
  .card-form {
