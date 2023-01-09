@@ -49,13 +49,28 @@ export default function popUpLoader(filters: IFilters, app: HTMLDivElement,) {
             <!-- </form> -->
         </div>
         <div class="submit-btn">
+        <a href="#/" class="ref submit-bnt" data-href="#/">
             <button class="btn" type="submit">
                 CONFIRM
             </button>
+        </a>
         </div>
     </div>                        
         </form>
    
 
     `
+  submitToMain(filters);
+}
+
+
+function submitToMain(filters: IFilters) {
+    const submitBtn = document.querySelector<HTMLLinkElement>(".submit-bnt");
+    submitBtn!.addEventListener("click", () => {
+        setTimeout(function(){
+            filters = locationResolver(filters, String(submitBtn!.dataset.href))
+}, 5 * 1000);
+        console.log(submitBtn!.href);
+        ;
+    });
 }
