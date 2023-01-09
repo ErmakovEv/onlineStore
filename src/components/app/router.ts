@@ -2,6 +2,7 @@ import productsLoader from "../products/products";
 import infoLoader from "../info/info";
 import { IFilters } from "./app";
 import cartLoader from "../cart/cart";
+import popUpLoader from "../cart/popup";
 
 const app = document.querySelector<HTMLDivElement>("#app");
 
@@ -27,6 +28,10 @@ const locationResolver = (
         //           <p>Страница карточки продукта ${filters.info}</p>
         //       `;
         infoLoader(filters, app);
+        case "#/popup":
+          // app.innerHTML=`<p>lorem10<p>`;
+        popUpLoader(filters, app);
+        break;
         break;
       default:
         app.innerHTML = `
