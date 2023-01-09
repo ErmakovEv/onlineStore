@@ -3,9 +3,6 @@ import products from "../db/shop.json"
 import { IProduct } from "../products/renderProducts";
 import locationResolver from "../app/router";
 
-
-import { renderTotal } from "../products/renderProducts";
-
 import "/src/scss/_cart.scss";
 import "/src/scss/_base.scss";
 

@@ -37,7 +37,7 @@ export default function popUpLoader(filters: IFilters, app: HTMLDivElement,) {
                <div class="card-secondline">
                 <div class="card-data">
                     <label>VALID:</label>
-                    <input type="number" class="input  input-cartData" name="data" placeholder="Valid thru" required pattern="^\d{2}\/\d{2}$"  >
+                    <input type="number" class="input  input-cartData" name="data" placeholder="Valid thru" required>
                 </div>
                 <div class="card-ccv">
                     <label>CCV:</label>
@@ -64,8 +64,8 @@ function submitToMain(filters: IFilters) {
     const submitBtn = document.querySelector<HTMLButtonElement>(".btn-submit");
     submitBtn!.addEventListener("click", () => {
         setTimeout(() => {
-            console.log('click submit')
+            filters.cart = [];
             reset(filters);
-        }, 3000) 
+        }, 1000) 
     })
 }
