@@ -1,0 +1,26 @@
+.snowflake {
+    --size: 1vw;
+    width: var(--size);
+    height: var(--size);
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: -5vh;
+  }
+
+  @keyframes snowfall {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(0, 110vh, 0);
+    }
+  }
+
+  @for $i from 1 through 50 {
+    .snowflake:nth-child(#{$i}) {
+      --size: #{random(5) * 0.2}vw; /* randomize size! */
+      left: #{random(100)}vw;
+      animation: snowfall #{5 + random(10)}s linear infinite;
+    }
+  }

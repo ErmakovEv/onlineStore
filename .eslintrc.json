@@ -1,0 +1,55 @@
+// {
+//     "env": {
+//         "browser": true,
+//         "es2021": true
+//     },
+//     "extends": "standard-with-typescript",
+//     "overrides": [
+//     ],
+//     "parserOptions": {
+//         "ecmaVersion": "latest",
+//         "sourceType": "module"
+//     },
+//     "rules": {
+//     }
+// }
+
+{
+    "env": {
+        "browser": true,
+        "node": true,
+        "es2021": true
+    },
+    "extends": [
+        "prettier",
+        // "plugin:prettier/recommended",
+        // Базовый набор правил eslint
+        "eslint:recommended",
+        // Отключаем правила из базового набора
+        "plugin:@typescript-eslint/eslint-recommended",
+        // Базовые правила для TypeScript
+        "plugin:@typescript-eslint/recommended",
+        // Правила TS, требующие инфо о типах
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+
+    ],
+    "overrides": [
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+
+        "project": "tsconfig.json"
+        // "tsconfigRootDir": "__dirname"
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "prettier"
+    ],
+    "rules": {
+        "@typescript-eslint/no-non-null-assertion": "off"
+
+    },
+    "ignorePatterns": ["dist",  "webpack.config.js", "node_modules"]
+}
