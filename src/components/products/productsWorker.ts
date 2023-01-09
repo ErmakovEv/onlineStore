@@ -177,6 +177,18 @@ const changeQueryAndRenderProduct: cb = (filters: IFilters) => {
   renderProducts(filters, productForRender);
 }
 
+export function reset(filters: IFilters) {
+    filters.state['category'] = [];
+    filters.state['brand'] = [];
+    filters.range['minPrice'] = 0;
+    filters.range['maxPrice'] = 0;
+    filters.info = 0;
+    filters.search = '';
+    const pathQueryHash = makeQueryParamString(filters);
+    window.history.pushState({}, "", pathQueryHash);
+    locationResolver(filters, "#");
+}
+
 function listenFilterButtons(filters: IFilters) {
   const btnsForfilters = document.querySelectorAll('.filters-btn');
   btnsForfilters.forEach(btn => {
@@ -184,16 +196,7 @@ function listenFilterButtons(filters: IFilters) {
       const target = e.target;
       if(target instanceof HTMLButtonElement) {
         if(target.classList.contains('reset-btn')) {
-          console.log('reset');
-          filters.state['category'] = [];
-          filters.state['brand'] = [];
-          filters.range['minPrice'] = 0;
-          filters.range['maxPrice'] = 0;
-          filters.info = 0;
-          filters.search = '';
-          const pathQueryHash = makeQueryParamString(filters);
-          window.history.pushState({}, "", pathQueryHash);
-          locationResolver(filters, "#");
+          reset(filters);
         }
         else {
           navigator.clipboard.writeText(window.location.href)
