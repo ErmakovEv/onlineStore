@@ -1,6 +1,7 @@
 import { IFilters} from "../app/app";
 import products from "../db/shop.json";
 import locationResolver from "../app/router";
+import { addToCart } from "../products/productsWorker";
 
 
 import "/src/scss/_info.scss";
@@ -64,7 +65,7 @@ export default function infoLoader(filters: IFilters, app: HTMLDivElement,) {
                </div>
                <div class="product-add">
                    <h3 class="product-last-cost">${elem!.price}</h3>
-                   <button class="custom-btn btn-7"><span>Add to card</span></button>
+                   <button class="custom-btn btn-7 add-to-cart" data-title="${elem!.title}">Add to card</button>
                    <a href="#/popup" class="ref buy-now-inf" data-href="#/popup">
                    <button class="custom-btn btn-7"><span>Buy now</span></button> 
                    </a>
@@ -84,4 +85,9 @@ function loaderByuNowBtnInf(filters: IFilters) {
         console.log(byuNowBtnInf!.href);
         filters = locationResolver(filters, String(byuNowBtnInf!.dataset.href));
     });
+    const btnAdd = document.querySelector<HTMLButtonElement>(".add-to-cart");
+    btnAdd!.addEventListener("click", (e) => {
+        console.log(e.target)
+        addToCart(e.target as HTMLButtonElement, filters);
+    })
 }

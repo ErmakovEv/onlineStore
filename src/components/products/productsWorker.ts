@@ -60,6 +60,17 @@ function listenSlidersFilters(filters: IFilters) {
   }
 }
 
+export function addToCart(target: HTMLLinkElement | HTMLButtonElement, filters: IFilters) {
+  const nameCurrentProduct = target.dataset.title;
+  console.log("nameCurrentProduct", nameCurrentProduct)
+  const currentProduct = products.find(item => item["title"] === nameCurrentProduct)
+  const targetId = currentProduct!["id"];
+  const set = new Set(filters.cart);
+  set.has(targetId) ? set.delete(targetId) : set.add(targetId)
+  filters.cart = Array.from(set);
+  renderTotal(filters)
+}
+
 function listenButtonsInProductCard(filters: IFilters) {
   const blockProduct = document.querySelector<HTMLDivElement>(".products");
   if (blockProduct) {
@@ -73,15 +84,17 @@ function listenButtonsInProductCard(filters: IFilters) {
         const pathQueryHash = makeQueryParamString(filters);
         window.history.pushState({}, "", pathQueryHash);
         filters = locationResolver(filters, String((e.target as HTMLLinkElement).dataset.href));
+
       }
       else if ((e.target as HTMLButtonElement).tagName === "BUTTON") {
-        const nameCurrentProduct = (e.target as HTMLLinkElement)!.dataset.title;
-        const currentProduct = products.find(item => item["title"] === nameCurrentProduct)
-        const targetId = currentProduct!["id"];
-        const set = new Set(filters.cart);
-        set.has(targetId) ? set.delete(targetId) : set.add(targetId)
-        filters.cart = Array.from(set);
-        renderTotal(filters)
+        // const nameCurrentProduct = (e.target as HTMLLinkElement)!.dataset.title;
+        // const currentProduct = products.find(item => item["title"] === nameCurrentProduct)
+        // const targetId = currentProduct!["id"];
+        // const set = new Set(filters.cart);
+        // set.has(targetId) ? set.delete(targetId) : set.add(targetId)
+        // filters.cart = Array.from(set);
+        // renderTotal(filters)
+        addToCart(e.target as HTMLLinkElement, filters);
       }
     })
   }
