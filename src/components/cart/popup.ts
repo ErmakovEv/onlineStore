@@ -1,7 +1,5 @@
 import { IFilters} from "../app/app";
-import products from "../db/shop.json"
-import { IProduct } from "../products/renderProducts";
-import locationResolver from "../app/router";
+import { reset } from "../products/productsWorker";
 
 
 import "/src/scss/_popup.scss";
@@ -49,28 +47,25 @@ export default function popUpLoader(filters: IFilters, app: HTMLDivElement,) {
             <!-- </form> -->
         </div>
         <div class="submit-btn">
-        <a href="#" class="ref submit-bnt" data-href="#">
-            <button class="btn" type="submit">
+        <a href="#/" class="ref submit-bnt" data-href="#/">
+            <button class="btn-submit" type="button">
                 CONFIRM
             </button>
         </a>
         </div>
     </div>                        
         </form>
-   
-
     `
   submitToMain(filters);
 }
 
 
 function submitToMain(filters: IFilters) {
-    const submitBtn = document.querySelector<HTMLLinkElement>(".submit-bnt");
+    const submitBtn = document.querySelector<HTMLButtonElement>(".btn-submit");
     submitBtn!.addEventListener("click", () => {
-        setTimeout(function(){
-            filters = locationResolver(filters, String(submitBtn!.dataset.href))
-}, 5 * 1000);
-        console.log(submitBtn!.href);
-        ;
-    });
+        setTimeout(() => {
+            console.log('click submit')
+            reset(filters);
+        }, 3000) 
+    })
 }
