@@ -49,7 +49,7 @@ export default function popUpLoader(filters: IFilters, app: HTMLDivElement,) {
             <!-- </form> -->
         </div>
         <div class="submit-btn">
-        <a href="#/" class="ref submit-bnt" data-href="#/">
+        <a href="#" class="ref submit-bnt" data-href="#">
             <button class="btn" type="submit">
                 CONFIRM
             </button>

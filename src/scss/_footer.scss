@@ -1,5 +1,10 @@
 .footer {
-   position: relative;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    box-shadow: 0 4px 10px rgba(0,0,0, 0.76);
    
 }
 
@@ -22,10 +27,10 @@
     font-family: 'Bebas Neue';
     font-size: 25px;
 }
-.fot-fix {
-    position:fixed;
-    left:0;
-    bottom:0;
-    width: 100%;
-    box-shadow: 0 4px 10px rgba(0,0,0, 0.76);
-}
+// .fot-fix {
+//     position:fixed;
+//     left:0;
+//     bottom:0;
+//     width: 100%;
+//     box-shadow: 0 4px 10px rgba(0,0,0, 0.76);
+// }

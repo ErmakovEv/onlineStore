@@ -25,6 +25,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
+    height: 100%;
 	line-height: 1;
 }
 ol, ul {
@@ -43,3 +44,10 @@ table {
 	border-spacing: 0;
 }
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lobster&family=Poppins:ital,wght@0,400;1,300&display=swap');
+.container {
+	position: relative;
+	min-height: 100%;
+}
+main {
+	padding-bottom: 90px;
+}
