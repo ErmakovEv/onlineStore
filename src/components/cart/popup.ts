@@ -48,7 +48,7 @@ export default function popUpLoader(filters: IFilters, app: HTMLDivElement,) {
         </div>
         <div class="submit-btn">
         <a href="#/" class="ref submit-bnt" data-href="#/">
-            <button class="btn" type="submit">
+            <button class="btn-submit" type="button">
                 CONFIRM
             </button>
         </a>
@@ -61,8 +61,11 @@ export default function popUpLoader(filters: IFilters, app: HTMLDivElement,) {
 
 
 function submitToMain(filters: IFilters) {
-    const submitBtn = document.querySelector<HTMLLinkElement>(".submit-bnt");
+    const submitBtn = document.querySelector<HTMLButtonElement>(".btn-submit");
     submitBtn!.addEventListener("click", () => {
-        reset(filters);
-    });
+        setTimeout(() => {
+            console.log('click submit')
+            reset(filters);
+        }, 3000) 
+    })
 }
