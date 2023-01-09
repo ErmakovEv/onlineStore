@@ -1,5 +1,7 @@
 import { IFilters} from "../app/app";
-import products from "../db/shop.json"
+import products from "../db/shop.json";
+import locationResolver from "../app/router";
+
 
 import "/src/scss/_info.scss";
 import "/src/scss/_base.scss";
@@ -63,11 +65,23 @@ export default function infoLoader(filters: IFilters, app: HTMLDivElement,) {
                <div class="product-add">
                    <h3 class="product-last-cost">${elem!.price}</h3>
                    <button class="custom-btn btn-7"><span>Add to card</span></button>
-                   <button class="custom-btn btn-7"><span>Buy now</span></button>
+                   <a href="#/popup" class="ref buy-now-inf" data-href="#/popup">
+                   <button class="custom-btn btn-7"><span>Buy now</span></button> 
+                   </a>
                </div>
            </div>
        </div>
    </div>
 </div>
 `
+loaderByuNowBtnInf(filters)
+}
+
+
+function loaderByuNowBtnInf(filters: IFilters) {
+    const byuNowBtnInf = document.querySelector<HTMLLinkElement>(".buy-now-inf");
+    byuNowBtnInf!.addEventListener("click", () => {
+        console.log(byuNowBtnInf!.href);
+        filters = locationResolver(filters, String(byuNowBtnInf!.dataset.href));
+    });
 }

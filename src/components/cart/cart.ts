@@ -1,6 +1,7 @@
 import { IFilters} from "../app/app";
 import products from "../db/shop.json"
 import { IProduct } from "../products/renderProducts";
+import locationResolver from "../app/router";
 
 import "/src/scss/_cart.scss";
 import "/src/scss/_base.scss";
@@ -82,7 +83,8 @@ export default function cartLoader(filters: IFilters, app: HTMLDivElement,) {
                 </div>
                 <span class="test-code">Promo for test: 'RS', 'EPM'</span>
                 <div class="sum-btn">
-                    <button class="sum-btn btn-7"><span>Buy now</span></button>
+                <a href="#/popup" class="ref buy-now" data-href="#/popup">
+                <button class="sum-btn btn-7"><span>Buy now</span></button></a>
                 </div>
             </div>
     
@@ -95,13 +97,13 @@ export default function cartLoader(filters: IFilters, app: HTMLDivElement,) {
   }).join("");
 
   app.innerHTML = html;
+  loaderByuNowBtn(filters)
 }
 
-// <div class="card card-${prod.title}">
-//         <h2>${prod.title}</h2>
-//         <img class="thumbnail" src="${prod.thumbnail}" alt="telephone">
-//         <h2>${prod.description}</h2>
-//         <p>${prod.price}</p>
-//         <a href="#/productCard/" class="ref" data-href="#/productCard/">Инфо</a>
-//         <button class="addCart">add</button>
-//     </div>
+function loaderByuNowBtn(filters: IFilters) {
+    const byuNowBtn = document.querySelector<HTMLLinkElement>(".buy-now");
+    byuNowBtn!.addEventListener("click", () => {
+        console.log(byuNowBtn!.href);
+        filters = locationResolver(filters, String(byuNowBtn!.dataset.href));
+    });
+}
